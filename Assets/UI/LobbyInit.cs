@@ -371,6 +371,18 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             case 3:
                 roomnumber = 3;
                 break;
+            case 4:
+                roomnumber = 4;
+                break;
+            case 5:
+                roomnumber = 5;
+                break;
+            case 6:
+                roomnumber = 6;
+                break;
+            case 7:
+                roomnumber = 7;
+                break;
             default:
                 break;
         }
@@ -409,7 +421,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             isLoggin = true;
         }
 
-        if (isGameStart == false && SceneManager.GetActiveScene().name == "SampleScene" && isLoggin == true)
+        if (isGameStart == false && SceneManager.GetActiveScene().name == "StartScene" && isLoggin == true)
         {
             Debug.Log("Update : " + isGameStart + ", " + isLoggin);
             isGameStart = true;
