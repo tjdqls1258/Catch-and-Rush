@@ -28,6 +28,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private int hp = 100;
     private float respwnTime = 3.0f;
 
+    private bool get_flag = false;
+
     IEnumerator CreateBullet()
     {
         //Instantiate(bullet, firePos.position, firePos.rotation);
@@ -127,6 +129,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "PUNCH")
         {
+            get_flag = false;
+            coll.GetComponent<FollowFlag>().enabled = false;
+            coll.GetComponent<FlagCatch>().Iscatched = false;
             /*if (coll.gameObject.GetComponent<Bullet>().owner == name)
             {
                 return;
@@ -137,6 +142,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             }
             Debug.Log("Hit");
             Destroy(coll.gameObject);*/
+        }
+        if(coll.gameObject.tag == "flag")
+        {
+            get_flag = true;
         }
     }
 

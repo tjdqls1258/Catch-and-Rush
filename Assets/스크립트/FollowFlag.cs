@@ -19,11 +19,14 @@ public class FollowFlag : MonoBehaviour
     // Update is called once per frame
     private void LateUpdate()
     {
-        Player = gameObject.GetComponent<FlagCatch>().FollowPlayer.transform;
-        if(Player == null)
+        if (gameObject.GetComponent<FlagCatch>().Iscatched)
         {
-            return;
+            Player = gameObject.GetComponent<FlagCatch>().FollowPlayer.transform;
+            if (Player == null)
+            {
+                return;
+            }
+            flagtr.position = Vector3.Lerp(flagtr.position, Player.position + (Vector3.up * hight), Time.deltaTime * dampTrace);
         }
-        flagtr.position = Vector3.Lerp(flagtr.position, Player.position + (Vector3.up * hight), Time.deltaTime * dampTrace);
     }
 }
