@@ -5,6 +5,7 @@ using UnityEngine;
 public class FlagCatch : MonoBehaviour
 {
     bool Iscatched = false;
+    public GameObject FollowPlayer;
     public GameObject Flag;
 
     // Start is called before the first frame update
@@ -24,6 +25,7 @@ public class FlagCatch : MonoBehaviour
         if(coll.gameObject.tag == "Player")
         {
             Iscatched = true;
+            FollowPlayer = coll.gameObject;
             Flag.GetComponent<CapsuleCollider>().enabled = false;
             Flag.GetComponent<FollowFlag>().enabled = true;
         }
