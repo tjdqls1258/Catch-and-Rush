@@ -59,7 +59,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         if (PV.IsMine)
         {
             Camera.main.GetComponent<FollowCam>().Target = tr.Find("Cube").gameObject.transform;
-
         }
     }
 
@@ -126,7 +125,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     private void OnTriggerEnter(Collider coll)
     {
-        Debug.Log("HIT!: " + coll.gameObject.tag);
         if (coll.gameObject.tag == "PUNCH")
         {
             /*if (coll.gameObject.GetComponent<Bullet>().owner == name)

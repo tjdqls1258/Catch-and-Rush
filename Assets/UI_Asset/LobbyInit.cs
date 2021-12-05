@@ -117,7 +117,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
-        if (PhotonNetwork.IsConnected && isReady)
+        Debug.Log(PhotonNetwork.IsConnected);
+        if (PhotonNetwork.IsConnected)
         {
             connectionState = "·ë¿¡ Á¢¼Ó....";
             if (connectionInfoText)
@@ -174,7 +175,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         isLoggin = false;
         PlayerPrefs.SetInt("Login", 1);
 
-        PhotonNetwork.LoadLevel("SampleScene");
+        PhotonNetwork.LoadLevel("MainScene");
     }
 
     void OnGUI()
@@ -189,8 +190,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(0.5f);
         }
 
-        GameObject tempPlayer = PhotonNetwork.Instantiate("PlayerDagger", new Vector3(0, 0, 0), Quaternion.identity, 0);
-        //tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(playerName);
+        GameObject tempPlayer = PhotonNetwork.Instantiate("Player", new Vector3(2, 1, 11), Quaternion.identity, 0);
+        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(playerName);
         pv = GetComponent<PhotonView>();
 
         yield return null;
