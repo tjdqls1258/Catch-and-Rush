@@ -23320,6 +23320,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 184048557555540841, guid: d2374a623f5780d42bc8222439836b71, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 38f124c2f2ea5b0459fe8b08e88f7157, type: 3}
+    - target: {fileID: 184048557555540841, guid: d2374a623f5780d42bc8222439836b71, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 184048557555540841, guid: d2374a623f5780d42bc8222439836b71, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3cd4fa8dfe77312458861bdb32131eb5, type: 2}
+    - target: {fileID: 184048557555540841, guid: d2374a623f5780d42bc8222439836b71, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3812350018894206373, guid: d2374a623f5780d42bc8222439836b71, type: 3}
       propertyPath: m_RootOrder
       value: 1
