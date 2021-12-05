@@ -943,7 +943,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 739024825}
         m_TargetAssemblyTypeName: LobbyInit, Assembly-CSharp
-        m_MethodName: EnterRoomWithPW
+        m_MethodName: EnterRoomWothPW
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2248,7 +2248,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 37287796}
+      - m_Target: {fileID: 821936436}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -3321,8 +3321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5790b9f004cb94fa28dc233f38e167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 410422264}
-  chattingBtn: {fileID: 0}
+  PlayerInput: {fileID: 410422264}
+  chattingBtn: {fileID: 36714273}
   chatMessage: 
   LobbyCanvas: {fileID: 37287796}
   LobbyPanel: {fileID: 1742585133}
