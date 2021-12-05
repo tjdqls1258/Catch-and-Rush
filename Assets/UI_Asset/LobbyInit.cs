@@ -10,12 +10,12 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class LobbyInit : MonoBehaviourPunCallbacks
 {
     //싱글턴 패턴을 적용
-    public static PhotonInit instance;
+    public static LobbyInit instance;
 
-    public InputField playerInput;
+    public InputField PlayerInput;
     public Button chattingBtn;
     bool isGameStart = false;
-    bool isLoggin = false;
+    bool isLoggIn = false;
     bool isReady = false;
     string playerName = "";
     string connectionState = "";
@@ -52,30 +52,10 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     //여러개의 방 리스트를 관리하는 변수
     List<RoomInfo> myList = new List<RoomInfo>();
-    int currentPage = 1, maxPage, multiple, roomnumber;
+    int currentPage = 1, maxPage, mutiple, roomnuber;
 
-    public static PhotonInit Instance
-    {
-        get
-        {
-            if (!instance)
-            {
-                instance = FindObjectOfType(typeof(PhotonInit)) as PhotonInit;
-
-                if (instance == null)
-                {
-                    Debug.Log("no singleton obj");
-                }
-            }
-
-            return instance;
-        }
-    }
-
-    // Start is called before the first frame update
     void Awake()
     {
-        //수정필요
         PhotonNetwork.GameVersion = "MyFps 1.0";
         PhotonNetwork.ConnectUsingSettings();
 
@@ -83,12 +63,10 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         {
             chatText = GameObject.Find("ChatText").GetComponent<Text>();
         }
-
         if (GameObject.Find("Scroll View") != null)
         {
             scroll_rect = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
         }
-
         if (GameObject.Find("ConnectionInfoText") != null)
         {
             connectionInfoText = GameObject.Find("ConnectionInfoText").GetComponent<Text>();
@@ -104,28 +82,75 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(gameObject);
     }
 
-    public void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
-        PlayerPrefs.SetInt("Login", 0);
+        PlayerPrefs.SetInt("LogIn", 0);
     }
 
-    private void OnConnectedToServer()
+    private void Update()
     {
-        Debug.Log("OnConnectedToServer");
-        isReady = true;
+        if ((PlayerPrefs.GetInt("LogIn") == 1))
+        {
+            isLoggIn = true;
+        }
+        if ((isGameStart == false) && (SceneManager.GetActiveScene().name == "MainScene") && (isLoggIn == true))
+        {
+            isGameStart = true;
+            if (GameObject.Find("ChatText") != null)
+            {
+                chatText = GameObject.Find("ChatText").GetComponent<Text>();
+            }
+            if (GameObject.Find("Scroll View") != null)
+            {
+                scroll_rect = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
+            }
+
+            if (GameObject.Find("InputFieldChat") != null)
+            {
+                PlayerInput = GameObject.Find("InputFieldChat").GetComponent<InputField>();
+            }
+            if (GameObject.Find("ChattingButton") != null)
+            {
+                chattingBtn = GameObject.Find("ChattingButton").GetComponent<Button>();
+                chattingBtn.onClick.AddListener(SetPlayerName);
+            }
+            StartCoroutine(CreatPlayer());
+        }
+    }
+
+    //public override void OnJoinedLobby()
+    //{
+    //    base.OnJoinedLobby();
+    //    Debug.Log("로비 입장");
+    //    PhotonNetwork.JoinRandomRoom();
+    //}
+
+    public static LobbyInit Instance
+    {
+        get
+        {
+            if (!instance)
+            {
+                instance = FindObjectOfType(typeof(LobbyInit)) as LobbyInit;
+
+                if (instance == null)
+                {
+                    Debug.Log("no singleton obj");
+                }
+            }
+            return instance;
+        }
     }
 
     public void Connect()
     {
-        Debug.Log(PhotonNetwork.IsConnected);
         if (PhotonNetwork.IsConnected)
         {
-            connectionState = "룸에 접속....";
+            connectionState = "룸에 접속 중 ...";
             if (connectionInfoText)
             {
                 connectionInfoText.text = connectionState;
             }
-
             LobbyPanel.SetActive(false);
             RoomPanel.SetActive(true);
 
@@ -133,7 +158,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         }
         else
         {
-            connectionState = "오프라인 : 마스터 서버와 연결되지 않음\n접속 재시도 중....";
+            connectionState = "오프라인 : 마스터 서버와 연결되지 않음 \n접속 재시도중 ...";
             if (connectionInfoText)
             {
                 connectionInfoText.text = connectionState;
@@ -150,6 +175,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             connectionInfoText.text = connectionState;
         }
         Debug.Log("No Room");
+        //PhotonNetwork.CreateRoom("MyRoom");
     }
 
     public override void OnCreatedRoom()
@@ -160,7 +186,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         {
             connectionInfoText.text = connectionState;
         }
-        Debug.Log("Finish make a room");
+
+        Debug.Log("방 생성 완료");
     }
 
     public override void OnJoinedRoom()
@@ -171,47 +198,50 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         {
             connectionInfoText.text = connectionState;
         }
-        Debug.Log("Joined room");
-        isLoggin = false;
-        PlayerPrefs.SetInt("Login", 1);
+        Debug.Log("방 입장");
+        isLoggIn = true;
+        PlayerPrefs.SetInt("LogIn", 1);
 
+        //SceneManager.LoadScene("SampleScene");
         PhotonNetwork.LoadLevel("MainScene");
-    }
 
-    void OnGUI()
-    {
-        GUILayout.Label(connectionState);
     }
-
-    IEnumerator CreatePlayer()
+    IEnumerator CreatPlayer()
     {
         while (!isGameStart)
         {
             yield return new WaitForSeconds(0.5f);
         }
-
-        GameObject tempPlayer = PhotonNetwork.Instantiate("Player", new Vector3(2, 1, 11), Quaternion.identity, 0);
-        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(playerName);
+        GameObject tempPlayer = PhotonNetwork.Instantiate("Player_01",
+            new Vector3(2, 1, 11),
+            Quaternion.identity,
+            0);
+        Debug.Log("이름 : " + playerName);
+        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(PlayerPrefs.GetString("PlayerName"));
         pv = GetComponent<PhotonView>();
-
         yield return null;
+    }
+    private void OnGUI()
+    {
+        GUILayout.Label(connectionState);
     }
 
     public void SetPlayerName()
     {
-        Debug.Log(playerInput.text + "를 입력 하셨습니다!");
-
-        if (isGameStart == false && isLoggin == false)
+        Debug.Log(PlayerInput.text + " 를(을) 입력 하셨습니다!");
+        if (isGameStart == false && isLoggIn == false)
         {
-            playerName = playerInput.text;
-            playerInput.text = string.Empty;
-            Debug.Log("connect 시도 " + isGameStart + ", " + isLoggin);
+            playerName = PlayerInput.text;
+            PlayerPrefs.SetString("PlayerName", playerName);
+            PlayerInput.text = string.Empty;
+            Debug.Log("연결 이름 : " + playerName);
+            Debug.Log("Connect 시도" + isGameStart + ", " + isLoggIn);
             Connect();
         }
-        else if (isGameStart == true && isLoggin == true)
+        else
         {
-            chatMessage = playerInput.text;
-            playerInput.text = string.Empty;
+            chatMessage = PlayerInput.text;
+            PlayerInput.text = string.Empty;
             pv.RPC("ChatInfo", RpcTarget.All, chatMessage);
         }
     }
@@ -219,6 +249,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     public void ShowChat(string chat)
     {
         chatText.text += chat + "\n";
+
         scroll_rect.verticalNormalizedPosition = 0.0f;
     }
 
@@ -228,7 +259,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         ShowChat(sChat);
     }
 
-    #region 방 생성 맻 접속 관련 매서드
     public void CreateRoomBtnOnClick()
     {
         MakeRoomPanel.SetActive(true);
@@ -241,7 +271,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 80 });
+        PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : RoomInput.text,
+            new RoomOptions { MaxPlayers = 100 });
         LobbyPanel.SetActive(false);
     }
 
@@ -250,19 +281,18 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         PhotonNetwork.Disconnect();
         RoomPanel.SetActive(false);
         LobbyPanel.SetActive(true);
-        connectionState = "마스터 서버에 접속 중...";
+        connectionState = "마스터 서버에 접속중...";
         if (connectionInfoText)
         {
             connectionInfoText.text = connectionState;
         }
-
         isGameStart = false;
-        isLoggin = false;
+        isLoggIn = false;
+        PlayerPrefs.SetInt("LogIn", 0);
 
-        PlayerPrefs.SetInt("Login", 0);
     }
 
-    //새로운 방 만들기
+    //방만들기
     public void CreateNewRoom()
     {
         RoomOptions roomOptions = new RoomOptions();
@@ -275,62 +305,16 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
         if (PwToggle.isOn)
         {
-            PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : "*" + RoomInput.text, roomOptions);
+            PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : "*" + RoomInput.text,
+                roomOptions);
         }
         else
         {
-            PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 80 });
+            PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : RoomInput.text,
+                new RoomOptions { MaxPlayers = 80 });
         }
 
         MakeRoomPanel.SetActive(false);
-    }
-
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        Debug.Log("OnRoomListUpdate : " + roomList.Count);
-        int roomCount = roomList.Count;
-        for (int i = 0; i < roomCount; i++)
-        {
-            if (!roomList[i].RemovedFromList)
-            {
-                if (!myList.Contains(roomList[i]))
-                {
-                    myList.Add(roomList[i]);
-                }
-                else
-                {
-                    myList[myList.IndexOf(roomList[i])] = roomList[i];
-                }
-            }
-            else if (myList.IndexOf(roomList[i]) != -1)
-            {
-                myList.RemoveAt(myList.IndexOf(roomList[i]));
-            }
-
-            MyListRenewal();
-        }
-    }
-
-    void MyListRenewal()
-    {
-        //최대 페이지
-        maxPage = (myList.Count % CellBtn.Length == 0)
-            ? myList.Count / CellBtn.Length
-            : myList.Count / CellBtn.Length + 1;
-
-        //이전, 다음버튼
-        PreviousBtn.interactable = (currentPage <= 1) ? false : true;
-        NextBtn.interactable = (currentPage >= maxPage) ? false : true;
-
-        //페이지에 맞는 리스트 대입
-        multiple = (currentPage - 1) * CellBtn.Length;
-        for (int i = 0; i < CellBtn.Length; i++)
-        {
-            CellBtn[i].interactable = (multiple + 1 < myList.Count) ? true : false;
-            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
-            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = (multiple + i < myList.Count)
-                ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
-        }
     }
 
     public void MyListClick(int num)
@@ -345,13 +329,14 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             ++currentPage;
             MyListRenewal();
         }
-        else if (myList[multiple + num].CustomProperties["password"] != null)
+
+        else if (myList[mutiple + num].CustomProperties["password"] != null)
         {
             PwPanel.SetActive(true);
         }
         else
         {
-            PhotonNetwork.JoinRoom(myList[multiple + num].Name);
+            PhotonNetwork.JoinRoom(myList[mutiple + num].Name);
             MyListRenewal();
         }
     }
@@ -361,39 +346,39 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         switch (number)
         {
             case 0:
-                roomnumber = 0;
+                roomnuber = 0;
                 break;
             case 1:
-                roomnumber = 1;
+                roomnuber = 1;
                 break;
             case 2:
-                roomnumber = 2;
+                roomnuber = 2;
                 break;
             case 3:
-                roomnumber = 3;
+                roomnuber = 3;
                 break;
             case 4:
-                roomnumber = 4;
+                roomnuber = 4;
                 break;
             case 5:
-                roomnumber = 5;
+                roomnuber = 5;
                 break;
             case 6:
-                roomnumber = 6;
+                roomnuber = 6;
                 break;
             case 7:
-                roomnumber = 7;
+                roomnuber = 7;
                 break;
             default:
                 break;
         }
     }
 
-    public void EnterRoomWithPW()
+    public void EnterRoomWothPW()
     {
-        if ((string)myList[multiple + roomnumber].CustomProperties["password"] == PwCheckIF.text)
+        if ((string)myList[mutiple + roomnuber].CustomProperties["password"] == PwCheckIF.text)
         {
-            PhotonNetwork.JoinRoom(myList[multiple + roomnumber].Name);
+            PhotonNetwork.JoinRoom(myList[mutiple + roomnuber].Name);
             MyListRenewal();
             PwPanel.SetActive(false);
         }
@@ -413,43 +398,54 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         }
     }
 
-    #endregion
-
-    private void Update()
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        if (PlayerPrefs.GetInt("Login") == 1)
+        base.OnRoomListUpdate(roomList);
+        int roomCount = roomList.Count;
+        for (int i = 0; i < roomCount; i++)
         {
-            isLoggin = true;
+            if (!roomList[i].RemovedFromList)
+            {
+                if (!myList.Contains(roomList[i]))
+                {
+                    myList.Add(roomList[i]);
+                }
+                else
+                {
+                    myList[myList.IndexOf(roomList[i])] = roomList[i];
+                }
+            }
+            else if (myList.IndexOf(roomList[i]) != -1)
+            {
+                myList.RemoveAt(myList.IndexOf(roomList[i]));
+            }
         }
+        MyListRenewal();
+    }
 
-        if (isGameStart == false && SceneManager.GetActiveScene().name == "StartScene" && isLoggin == true)
+    void MyListRenewal()
+    {
+        maxPage = (myList.Count % CellBtn.Length == 0) ?
+            myList.Count / CellBtn.Length :
+            myList.Count / CellBtn.Length + 1;
+
+        PreviousBtn.interactable = (currentPage <= 1) ? false : true;
+        NextBtn.interactable = (currentPage >= maxPage) ? false : true;
+
+        mutiple = (currentPage - 1) * CellBtn.Length;
+        for (int i = 0; i < CellBtn.Length; i++)
         {
-            Debug.Log("Update : " + isGameStart + ", " + isLoggin);
-            isGameStart = true;
-
-            if (GameObject.Find("ChatText") != null)
-            {
-                chatText = GameObject.Find("ChatText").GetComponent<Text>();
-            }
-
-            if (GameObject.Find("Scroll View") != null)
-            {
-                scroll_rect = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
-            }
-
-            //이제 플레이어 인풋 필드를 대체
-            if (GameObject.Find("InputFieldChat") != null)
-            {
-                playerInput = GameObject.Find("InputFieldChat").GetComponent<InputField>();
-            }
-
-            if (GameObject.Find("ChattingButton") != null)
-            {
-                chattingBtn = GameObject.Find("ChattingButton").GetComponent<Button>();
-                chattingBtn.onClick.AddListener(SetPlayerName);
-            }
-
-            StartCoroutine(CreatePlayer());
+            CellBtn[i].interactable = (mutiple + i < myList.Count) ? true : false;
+            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text =
+                (mutiple + i < myList.Count) ? myList[mutiple + i].Name : "";
+            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = (mutiple + i < myList.Count)
+                ? myList[mutiple + i].PlayerCount + "/" + myList[mutiple + i].MaxPlayers : "";
         }
+    }
+
+    private void OnConnectedToServer()
+    {
+        Debug.Log("OnConnectedToServer");
+        isReady = true;
     }
 }
