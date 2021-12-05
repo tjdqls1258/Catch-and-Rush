@@ -20057,6 +20057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11018dc6aed3810429fbcbe856968620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Iscatched: 0
   FollowPlayer: {fileID: 0}
   Flag: {fileID: 1498351873}
 --- !u!136 &1498351876
