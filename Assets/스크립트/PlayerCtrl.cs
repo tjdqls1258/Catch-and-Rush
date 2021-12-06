@@ -87,7 +87,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if (Input.GetButtonDown("Fire1"))
             {
                 animator.SetTrigger("Attack");
-                Fire();
+                //Fire();
             }
         }
         else if (!PV.IsMine && isDie == false)
