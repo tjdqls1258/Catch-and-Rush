@@ -20,6 +20,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     public TextMesh playerName;
     string name = "";
+    string team = "";
 
     public Transform firePos;
     public GameObject bullet;
@@ -32,8 +33,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     IEnumerator CreateBullet()
     {
-        //Instantiate(bullet, firePos.position, firePos.rotation);
-        //bullet.GetComponent<Bullet>().owner = name;
+        Instantiate(bullet, firePos.position, firePos.rotation);
+        bullet.GetComponent<Bullet>().owner = team;
         yield return null;
     }
 
@@ -87,7 +88,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if (Input.GetButtonDown("Fire1"))
             {
                 animator.SetTrigger("Attack");
-                //Fire();
+                Fire();
             }
         }
         else if (!PV.IsMine && isDie == false)
@@ -129,19 +130,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "PUNCH")
         {
-            get_flag = false;
-            coll.GetComponent<FollowFlag>().enabled = false;
-            coll.GetComponent<FlagCatch>().Iscatched = false;
-            /*if (coll.gameObject.GetComponent<Bullet>().owner == name)
-            {
-                return;
-            }
-            if (isDie == true)
-            {
-                return;
-            }
-            Debug.Log("Hit");
-            Destroy(coll.gameObject);*/
+            transform.transform.position += coll.transform.forward;
+            //get_flag = false;
+            //coll.GetComponent<FollowFlag>().enabled = false;
+            //coll.GetComponent<FlagCatch>().Iscatched = false;
         }
         if(coll.gameObject.tag == "flag")
         {
@@ -175,15 +167,15 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            hp -= damage;
-            photonView.RPC("ApplyUpdateHealth", RpcTarget.Others, hp);
-            photonView.RPC("OnDamage", RpcTarget.Others, damage);
+            //hp -= damage;
+            //photonView.RPC("ApplyUpdateHealth", RpcTarget.Others, hp);
+            //photonView.RPC("OnDamage", RpcTarget.Others, damage);
         }
-        if (hp <= 0)
-        {
-            animator.SetTrigger("Die");
-            StartCoroutine(RespawnPlayer(respwnTime));
-        }
+        //if (hp <= 0)
+        //{
+        //    animator.SetTrigger("Die");
+        //    StartCoroutine(RespawnPlayer(respwnTime));
+        //}
         else
         {
             animator.SetTrigger("IsHit");
