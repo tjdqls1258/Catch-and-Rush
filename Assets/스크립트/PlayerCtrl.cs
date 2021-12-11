@@ -31,6 +31,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private bool isDie = false;
     private int hp = 100;
     private float respwnTime = 3.0f;
+    private Vector3 Knockback_pos;
 
     private bool get_flag = false;
     
@@ -161,7 +162,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 flag.GetComponent<FlagCatch>().Iscatched = false;
                 flag.GetComponent<Rigidbody>().useGravity = true;
 
-                transform.transform.position += coll.transform.forward;
+                Knockback_pos = coll.transform.forward.normalized;
+                this.transform.position += (Knockback_pos*5.0f);
 
                 flag.GetComponent<CapsuleCollider>().enabled = true;
             }          
