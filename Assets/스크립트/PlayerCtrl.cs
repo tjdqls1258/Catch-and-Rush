@@ -168,7 +168,11 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 flag.GetComponent<CapsuleCollider>().enabled = true;
             }          
         }
-        if(coll.gameObject.tag == "flag")
+    }
+
+    private void OnCollisionEnter(Collision coll)
+    {
+        if (coll.gameObject.tag == "flag")
         {
             get_flag = true;
         }
