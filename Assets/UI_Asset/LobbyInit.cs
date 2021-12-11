@@ -40,6 +40,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     public GameObject PwConfirmBtn; //방 입장(비번 입력창 버튼)
     public GameObject PwPanelCloseBtn;//방 입장(비번 입력창 창닫기 버튼)
     public InputField PwCheckIF; //방 입장
+    public GameObject WaitRoom;
     //캔버스 안에 캔버스를 넣어둔 구조라 주의 할 것, 제대로 안되면 하나의 캔버스에 여러 패널구조로 교체해야함
 
     public bool LockState = false;
@@ -48,6 +49,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     public Button PreviousBtn;//lobby 에서 화살표 추가
     public Button NextBtn; //lobby 에서 화살표 추가
     public Button CreateRoomBtn;
+    public Button StartGame;
+    public Button ChangeTeam;
     public int hashtablecount;
 
     //여러개의 방 리스트를 관리하는 변수
