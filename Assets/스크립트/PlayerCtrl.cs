@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//UI를 관리하기 위함
+using UnityEngine.UI;
+
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -30,6 +33,12 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private float respwnTime = 3.0f;
 
     private bool get_flag = false;
+    
+    //시간을 관리
+    private Time_System_cs TSCS;
+    //플레이어 화면에 보여주는 시간 UI
+    public Text Time_Text_UI;
+
 
     IEnumerator CreateBullet()
     {
@@ -58,7 +67,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         PV = GetComponent<PhotonView>();
 
         PV.ObservedComponents[0] = this;
-
+        //타임 시스템 스크립트를 가져옴
+        TSCS =GameObject.Find("Time_System").GetComponent<Time_System_cs>();
         if (PV.IsMine)
         {
             Camera.main.GetComponent<FollowCam>().Target = tr.Find("Cube").gameObject.transform;
@@ -103,6 +113,15 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             }
             tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10);
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10);
+        }
+        //만약 시간이 0보다 클 시
+        if (TSCS.get_Time() > 0)
+        {   //현재 시간을 변영
+            Time_Text_UI.text = TSCS.get_Time().ToString();
+        }
+        else
+        {
+            Time_Text_UI.text = "게임 종료";
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
