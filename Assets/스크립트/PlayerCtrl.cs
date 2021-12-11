@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+//플레이어 내부에 UI(화면에 시간 텍스트)를 다루기 위함.
+using UnityEngine.UI;
+
 
 public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 {
@@ -27,6 +30,11 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private bool isDie = false;
     private int hp = 100;
     private float respwnTime = 3.0f;
+    //플레이어가 가지고 있는 Time_Text를 변경해주기 위함.
+    //getComponent로 가져오는게 아니라 ppublic릭으로 외부에서 가져오도록 설정함.
+    public Text time_text;
+    //시간을 가져올 스크립트.
+    Time_System_sc TSSC;
 
     IEnumerator CreateBullet()
     {
@@ -53,7 +61,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         tr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
         PV = GetComponent<PhotonView>();
-
+        //시간을 가져올 수 있도록 Time_System의 Time_System_sc 스크립을 불러옴.
+        TSSC = GameObject.Find("Time_System").GetComponent<Time_System_sc>();
+        
         PV.ObservedComponents[0] = this;
 
         if (PV.IsMine)
@@ -101,6 +111,18 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10);
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10);
         }
+
+        //시간을 받아와 텍스트 변경
+        //0보다 크기가 크다면 초가 변경됨.
+        if (TSSC.get_time() > 0)
+        {
+            time_text.text = TSSC.get_time().ToString();
+        }
+        else
+        {
+            time_text.text = "게임 종료";
+        }
+       
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -137,6 +159,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             }
             Debug.Log("Hit");
             Destroy(coll.gameObject);*/
+
         }
     }
 
