@@ -19,11 +19,11 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Quaternion currRot;
 
     public TextMesh playerName;
-    string name = "";
     string team = "";
 
     public Transform firePos;
     public GameObject bullet;
+    public GameObject flag;
 
     private bool isDie = false;
     private int hp = 100;
@@ -34,7 +34,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     IEnumerator CreateBullet()
     {
         Instantiate(bullet, firePos.position, firePos.rotation);
-        bullet.GetComponent<Bullet>().owner = team;
+        bullet.GetComponent<Bullet>().team = team;
         yield return null;
     }
 
@@ -128,12 +128,24 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     private void OnTriggerEnter(Collider coll)
     {
-        if (coll.gameObject.tag == "PUNCH")
+        if (coll.gameObject.tag == "PUNCH")//총알에 맞으면 밀림, 깃발을 가지고있으면 깃발도 떨굼
         {
-            transform.transform.position += coll.transform.forward;
-            //get_flag = false;
-            //coll.GetComponent<FollowFlag>().enabled = false;
-            //coll.GetComponent<FlagCatch>().Iscatched = false;
+            if (coll.gameObject.GetComponent<Bullet>().team == team)
+            {
+                return;
+            }
+            //깃발떨굼, get_flag false -> 깃발의 따라가기 비활성화 -> 캐릭터 밀고 -> 콜라이더 활성화
+            if (get_flag == true)
+            {
+                get_flag = false;
+                flag.GetComponent<FollowFlag>().enabled = false;
+                flag.GetComponent<FlagCatch>().Iscatched = false;
+                flag.GetComponent<Rigidbody>().useGravity = true;
+
+                transform.transform.position += coll.transform.forward;
+
+                flag.GetComponent<CapsuleCollider>().enabled = true;
+            }          
         }
         if(coll.gameObject.tag == "flag")
         {

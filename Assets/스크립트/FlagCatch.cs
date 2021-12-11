@@ -16,6 +16,7 @@ public class FlagCatch : MonoBehaviour
             FollowPlayer = coll.gameObject;
             Flag.GetComponent<CapsuleCollider>().enabled = false;
             Flag.GetComponent<FollowFlag>().enabled = true;
+            Flag.GetComponent<Rigidbody>().useGravity = false;
         }
     }
 }
