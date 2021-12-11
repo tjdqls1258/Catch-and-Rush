@@ -466,25 +466,28 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     [PunRPC]
     void Set_waitName(string name)
     {
-        if (Playe_1.text == "비어있음")
+        if(PhotonNetwork.IsMasterClient)
         {
-            Playe_1.text = name;
-            photonView.RPC("Set_waitName", RpcTarget.Others, Playe_1.text);
-        }
-        else if (Playe_2.text == "비어있음")
-        {
-            Playe_2.text = name;
-            photonView.RPC("Set_waitName", RpcTarget.Others, Playe_2.text);
-        }
-        else if (Playe_3.text == "비어있음")
-        {
-            Playe_3.text = name;
-            photonView.RPC("Set_waitName", RpcTarget.Others, Playe_3.text);
-        }
-        else if (Playe_4.text == "비어있음")
-        {
-            Playe_4.text = name;
-            photonView.RPC("Set_waitName", RpcTarget.Others, Playe_4.text);
+            if(Playe_1.text == "비어있음")
+            {
+                Playe_1.text = name;
+                photonView.RPC("Set_waitName", RpcTarget.Others, Playe_1.text);
+            }
+            else if (Playe_2.text == "비어있음")
+            {
+                Playe_2.text = name;
+                photonView.RPC("Set_waitName", RpcTarget.Others, Playe_2.text);
+            }
+            else if (Playe_3.text == "비어있음")
+            {
+                Playe_3.text = name;
+                photonView.RPC("Set_waitName", RpcTarget.Others, Playe_3.text);
+            }
+            else if (Playe_4.text == "비어있음")
+            {
+                Playe_4.text = name;
+                photonView.RPC("Set_waitName", RpcTarget.Others, Playe_4.text);
+            }
         }
     }
 }
