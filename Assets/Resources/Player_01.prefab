@@ -612,6 +612,8 @@ MonoBehaviour:
   playerName: {fileID: 1589711868160786937}
   firePos: {fileID: 6155713589936218606}
   bullet: {fileID: 377630263579517271, guid: 4f6820ee68c296e4ca34d2e5af124030, type: 3}
+  flag: {fileID: 0}
+  Time_Text_UI: {fileID: 0}
 --- !u!95 &4662542428015490540
 Animator:
   serializedVersion: 3
