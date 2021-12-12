@@ -160,13 +160,11 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 get_flag = false;
                 flag.GetComponent<FollowFlag>().enabled = false;
                 flag.GetComponent<FlagCatch>().Iscatched = false;
-                flag.GetComponent<Rigidbody>().useGravity = true;
-
-                Knockback_pos = coll.transform.forward.normalized;
-                this.transform.position += (Knockback_pos*5.0f);
-
+                flag.GetComponent<Rigidbody>().useGravity = true;              
                 flag.GetComponent<CapsuleCollider>().enabled = true;
-            }          
+            }
+            Knockback_pos = coll.transform.forward.normalized;
+            this.transform.position += (Knockback_pos * 5.0f);
         }
     }
 
@@ -175,6 +173,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         if (coll.gameObject.tag == "flag")
         {
             get_flag = true;
+            flag = coll.gameObject;
         }
     }
 
