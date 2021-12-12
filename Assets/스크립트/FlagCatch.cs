@@ -19,4 +19,24 @@ public class FlagCatch : MonoBehaviour
             Flag.GetComponent<Rigidbody>().useGravity = false;
         }
     }
+    private void Update()
+    {
+        if (FollowPlayer)
+        {
+            if (!FollowPlayer.GetComponent<PlayerCtrl>().get_flag)
+            {
+                Flag.GetComponent<FollowFlag>().enabled = false;
+                Flag.GetComponent<FlagCatch>().Iscatched = false;
+                Flag.GetComponent<Rigidbody>().useGravity = true;
+                Flag.GetComponent<CapsuleCollider>().enabled = true;
+            }
+        }
+        else
+        {
+            Flag.GetComponent<FollowFlag>().enabled = false;
+            Flag.GetComponent<FlagCatch>().Iscatched = false;
+            Flag.GetComponent<Rigidbody>().useGravity = true;
+            Flag.GetComponent<CapsuleCollider>().enabled = true;
+        }
+    }
 }

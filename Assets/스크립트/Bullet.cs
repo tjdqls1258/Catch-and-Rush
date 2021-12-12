@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
 
     IEnumerator DestoyBullet()
     {
-        Destroy(gameObject);
         yield return null;
+        Destroy(gameObject);
     }
 }

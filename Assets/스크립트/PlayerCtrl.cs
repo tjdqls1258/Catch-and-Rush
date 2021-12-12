@@ -22,7 +22,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Quaternion currRot;
 
     public TextMesh playerName;
-    string team = "";
+    string team = "a";
 
     public Transform firePos;
     public GameObject bullet;
@@ -33,7 +33,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private float respwnTime = 3.0f;
     private Vector3 Knockback_pos;
 
-    private bool get_flag = false;
+    public bool get_flag = false;
     
     //시간을 관리
     private Time_System_cs TSCS;
@@ -150,19 +150,18 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "PUNCH")//총알에 맞으면 밀림, 깃발을 가지고있으면 깃발도 떨굼
         {
-            if (coll.gameObject.GetComponent<Bullet>().team == team)
-            {
-                return;
-            }
-            //깃발떨굼, get_flag false -> 깃발의 따라가기 비활성화 -> 캐릭터 밀고 -> 콜라이더 활성화
+            //if (coll.gameObject.GetComponent<Bullet>().team == team)
+            //{
+            //    Debug.Log("team");
+            //    return;
+            //}
+            animator.SetTrigger("IsHit");
             if (get_flag == true)
             {
+                Debug.Log("get_flag");
                 get_flag = false;
-                flag.GetComponent<FollowFlag>().enabled = false;
-                flag.GetComponent<FlagCatch>().Iscatched = false;
-                flag.GetComponent<Rigidbody>().useGravity = true;              
-                flag.GetComponent<CapsuleCollider>().enabled = true;
             }
+            Debug.Log("am");
             Knockback_pos = coll.transform.forward.normalized;
             this.transform.position += (Knockback_pos * 5.0f);
         }
@@ -196,30 +195,5 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         yield return new WaitForSeconds(delayTime);
         GetComponent<MeshRenderer>().enabled = visibled;
-    }
-
-    [PunRPC]
-    void OnDamage(int damage)
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            //hp -= damage;
-            //photonView.RPC("ApplyUpdateHealth", RpcTarget.Others, hp);
-            //photonView.RPC("OnDamage", RpcTarget.Others, damage);
-        }
-        //if (hp <= 0)
-        //{
-        //    animator.SetTrigger("Die");
-        //    StartCoroutine(RespawnPlayer(respwnTime));
-        //}
-        else
-        {
-            animator.SetTrigger("IsHit");
-        }
-    }
-    [PunRPC]
-    public void ApplyUpdateHealth(int newhp)
-    {
-        hp = newhp;
     }
 }
