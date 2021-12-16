@@ -137,7 +137,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     public void SetPlayerTeam(string name)
     {
         this.team = team;
-        GetComponent<PlayerCtrl>().playerName.text = this.team;
     }
 
     public string GetPlayerTeam()

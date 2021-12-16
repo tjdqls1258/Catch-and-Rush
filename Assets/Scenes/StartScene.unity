@@ -2816,6 +2816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0bfc8cf6170ab429135c9aef2a91ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  self: {fileID: 0}
 --- !u!1 &495386307
 GameObject:
   m_ObjectHideFlags: 0
@@ -4314,7 +4315,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 963381579}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 739024825}
+        m_TargetAssemblyTypeName: LobbyInit, Assembly-CSharp
+        m_MethodName: Change_Team
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &963381579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5291,6 +5304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0bfc8cf6170ab429135c9aef2a91ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  self: {fileID: 0}
 --- !u!1 &1376591947
 GameObject:
   m_ObjectHideFlags: 0
@@ -5988,6 +6002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0bfc8cf6170ab429135c9aef2a91ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  self: {fileID: 0}
 --- !u!1 &1466236654
 GameObject:
   m_ObjectHideFlags: 0
@@ -6605,6 +6620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0bfc8cf6170ab429135c9aef2a91ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  self: {fileID: 0}
 --- !u!1 &1742585133
 GameObject:
   m_ObjectHideFlags: 0

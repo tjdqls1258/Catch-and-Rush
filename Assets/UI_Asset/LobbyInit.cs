@@ -18,6 +18,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     bool isLoggIn = false;
     bool isReady = false;
     string playerName = "";
+    string playerTeam = "";
     string connectionState = "";
 
     public string chatMessage;
@@ -228,6 +229,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             0);
         Debug.Log("¿Ã∏ß : " + playerName);
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(PlayerPrefs.GetString("PlayerName"));
+        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(PlayerPrefs.GetString("PlayerTeam"));
         yield return null;
     }
     private void OnGUI()
@@ -463,16 +465,86 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         yield return null;
         if (Playe_1.GetComponent<Change_Text>().setText(name))
         {
+            playerTeam = "Red";
+            Playe_1.GetComponent<Change_Text>().Set_Team(true);
         }
         else if (Playe_2.GetComponent<Change_Text>().setText(name))
         {
+            playerTeam = "Red";
+            Playe_2.GetComponent<Change_Text>().Set_Team(true);
         }
         else if (Playe_3.GetComponent<Change_Text>().setText(name))
         {
+            playerTeam = "Blue";
+            Playe_3.GetComponent<Change_Text>().Set_Team(false);
         }
         else if (Playe_4.GetComponent<Change_Text>().setText(name))
         {
+            playerTeam = "Blue";
+            Playe_4.GetComponent<Change_Text>().Set_Team(false);
         }
+    }
+
+    public void Change_Team()
+    {
+        StartCoroutine(Set_Change_Team());
+    }
+    IEnumerator Set_Change_Team()
+    {
+        yield return null;
+        if (playerName == Playe_1.GetComponent<Change_Text>().self.text)
+        {
+            if (playerTeam == "Red")
+            {
+                playerTeam = "Blue";
+                Playe_1.GetComponent<Change_Text>().Set_Team(true);
+            }
+            else
+            {
+                playerTeam = "Red";
+                Playe_1.GetComponent<Change_Text>().Set_Team(false);
+            }
+        }
+        else if (playerName == Playe_2.GetComponent<Change_Text>().self.text)
+        {
+            if (playerTeam == "Red")
+            {
+                playerTeam = "Blue";
+                Playe_2.GetComponent<Change_Text>().Set_Team(true);
+            }
+            else
+            {
+                playerTeam = "Red";
+                Playe_2.GetComponent<Change_Text>().Set_Team(false);
+            }
+        }
+        else if (playerName == Playe_3.GetComponent<Change_Text>().self.text)
+        {
+            if (playerTeam == "Red")
+            {
+                playerTeam = "Blue";
+                Playe_3.GetComponent<Change_Text>().Set_Team(true);
+            }
+            else
+            {
+                playerTeam = "Red";
+                Playe_3.GetComponent<Change_Text>().Set_Team(false);
+            }
+        }
+        else
+        {
+            if (playerTeam == "Red")
+            {
+                playerTeam = "Blue";
+                Playe_4.GetComponent<Change_Text>().Set_Team(true);
+            }
+            else
+            {
+                playerTeam = "Red";
+                Playe_4.GetComponent<Change_Text>().Set_Team(false);
+            }
+        }
+        PlayerPrefs.SetString("PlayerTeam", playerTeam);
     }
     [PunRPC]
     public void Start_Game()
