@@ -34,7 +34,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Vector3 Knockback_pos;
 
     public bool get_flag = false;
-    
+    //플레이어가 떨어졌을 떄 되돌아가는 지점
+    //아직 게임 시작할 때 정해진 팀에 해당 팀 스포너를 넣는 코드는 만들지 않음.
+    private GameObject team_Spawner;
+
     //시간을 관리
     private Time_System_cs TSCS;
     //플레이어 화면에 보여주는 시간 UI
@@ -68,6 +71,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         PV = GetComponent<PhotonView>();
 
         PV.ObservedComponents[0] = this;
+
+       
         //타임 시스템 스크립트를 가져옴
         TSCS =GameObject.Find("Time_System").GetComponent<Time_System_cs>();
         if (PV.IsMine)
@@ -146,6 +151,17 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         GetComponent<PlayerCtrl>().playerName.text = this.name;
     }
 
+    public void SetPlayerTeam(string name)
+    {
+        this.team = team;
+        GetComponent<PlayerCtrl>().playerName.text = this.team;
+    }
+
+    public string GetPlayerTeam()
+    {
+        return this.team;
+    }
+
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.gameObject.tag == "PUNCH")//총알에 맞으면 밀림, 깃발을 가지고있으면 깃발도 떨굼
@@ -165,6 +181,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             Knockback_pos = coll.transform.forward.normalized;
             this.transform.position += (Knockback_pos * 5.0f);
         }
+
     }
 
     private void OnCollisionEnter(Collision coll)
@@ -173,6 +190,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         {
             get_flag = true;
             flag = coll.gameObject;
+        }
+        else if (coll.gameObject.tag == "DAED_ZONE")
+        {
+            tr = team_Spawner.transform;
         }
     }
 
