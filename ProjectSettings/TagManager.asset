@@ -7,6 +7,8 @@ TagManager:
   - Path
   - flag
   - PUNCH
+  - Bullet
+  - DAED_ZONE
   layers:
   - Default
   - TransparentFX
