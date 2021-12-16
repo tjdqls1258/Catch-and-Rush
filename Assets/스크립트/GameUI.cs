@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour
+using Photon.Pun;
+
+public class GameUI : MonoBehaviourPun, IPunObservable
 {
     public GameObject Blue_Goal;
     public GameObject Red_Goal;
@@ -13,12 +15,21 @@ public class GameUI : MonoBehaviour
     public Text Red_Score;
     public Text Timer;
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
+        if (stream.IsWriting)
+        {
+            stream.SendNext(Blue_Score.text);
+            stream.SendNext(Red_Score.text);
+            stream.SendNext(Timer.text);
+        }
+        else
+        {
+            Blue_Score.text = (string)stream.ReceiveNext();
+            Red_Score.text = (string)stream.ReceiveNext();
+            Timer.text = (string)stream.ReceiveNext();
+        }
     }
-
     // Update is called once per frame
     void Update()
     {

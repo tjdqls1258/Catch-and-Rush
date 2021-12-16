@@ -22,7 +22,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Quaternion currRot;
 
     public TextMesh playerName;
-    public string team = "Blue";
+    public string team = "";
 
     public Transform firePos;
     public GameObject bullet;
@@ -134,7 +134,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         GetComponent<PlayerCtrl>().playerName.text = this.name;
     }
 
-    public void SetPlayerTeam(string name)
+    public void SetPlayerTeam(string team)
     {
         this.team = team;
     }
@@ -148,11 +148,11 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "PUNCH")//ÃÑ¾Ë¿¡ ¸ÂÀ¸¸é ¹Ð¸², ±ê¹ßÀ» °¡Áö°íÀÖÀ¸¸é ±ê¹ßµµ ¶³±À
         {
-            //if (coll.gameObject.GetComponent<Bullet>().team == team)
-            //{
-            //    Debug.Log("team");
-            //    return;
-            //}
+            if (coll.gameObject.GetComponent<Bullet>().team == team)
+            {
+                Debug.Log(team);
+                return;
+            }
             animator.SetTrigger("IsHit");
             if (get_flag == true)
             {

@@ -229,7 +229,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             0);
         Debug.Log("¿Ã∏ß : " + playerName);
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(PlayerPrefs.GetString("PlayerName"));
-        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(PlayerPrefs.GetString("PlayerTeam"));
+        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(playerTeam);
         yield return null;
     }
     private void OnGUI()
@@ -544,7 +544,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
                 Playe_4.GetComponent<Change_Text>().Set_Team(false);
             }
         }
-        PlayerPrefs.SetString("PlayerTeam", playerTeam);
     }
     [PunRPC]
     public void Start_Game()
