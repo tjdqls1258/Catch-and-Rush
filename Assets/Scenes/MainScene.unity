@@ -7498,7 +7498,7 @@ GameObject:
   - component: {fileID: 475015075}
   m_Layer: 0
   m_Name: Team1_Score_Zone
-  m_TagString: Untagged
+  m_TagString: GOAL_BLUE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14529,7 +14529,7 @@ GameObject:
   - component: {fileID: 1059632920}
   m_Layer: 0
   m_Name: Team2_Score_Zone
-  m_TagString: Untagged
+  m_TagString: GOAL_RED
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17066,6 +17066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d786a55080705954e9b0d732f7612f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  texts: {fileID: 0}
 --- !u!1001 &1217711258
 PrefabInstance:
   m_ObjectHideFlags: 0

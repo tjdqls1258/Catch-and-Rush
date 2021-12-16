@@ -9,6 +9,8 @@ TagManager:
   - PUNCH
   - Bullet
   - DAED_ZONE
+  - GOAL_BLUE
+  - GOAL_RED
   layers:
   - Default
   - TransparentFX

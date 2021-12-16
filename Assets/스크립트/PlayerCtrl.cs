@@ -162,7 +162,22 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             Knockback_pos = coll.transform.forward.normalized;
             this.transform.position += (Knockback_pos * 5.0f);
         }
-
+        if(coll.gameObject.tag == "GOLA_RED")
+        {
+            if(team == "Red")
+            {
+                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                get_flag = false;
+            }
+        }
+        if (coll.gameObject.tag == "GOLA_BLUE")
+        {
+            if (team == "Blue")
+            {
+                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                get_flag = false;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision coll)
