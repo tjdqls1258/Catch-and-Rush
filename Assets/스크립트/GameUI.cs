@@ -23,7 +23,7 @@ public class GameUI : MonoBehaviour
     void Update()
     {
         Blue_Score.text = Blue_Goal.GetComponent<Score_System>().get_Team_Score().ToString();
-        Red_Score.text = Red_Score.GetComponent<Score_System>().get_Team_Score().ToString();
+        Red_Score.text = Red_Goal.GetComponent<Score_System>().get_Team_Score().ToString();
         Timer.text = Time_object.GetComponent<Time_System_cs>().get_Time().ToString();
     }
 }
