@@ -37,6 +37,7 @@ public class Score_System : MonoBehaviourPun
             {
                 Add_Score();
                 PV.RPC("Add_Score", RpcTarget.Others);
+                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
             }
         }
     }

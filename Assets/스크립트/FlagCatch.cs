@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlagCatch : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class FlagCatch : MonoBehaviourPun
 {
     public bool Iscatched = false;
     public GameObject FollowPlayer;
     public GameObject Flag;
+
+    private PhotonView PV;
+
+    private void Start()
+    {
+        PV = GetComponent<PhotonView>();
+    }
 
     private void OnCollisionEnter(Collision coll)
     {
