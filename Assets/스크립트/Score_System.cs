@@ -24,10 +24,6 @@ public class Score_System : MonoBehaviourPun
         texts.Red_Score.text = Team_Score.ToString();
     }
 
-    public int get_Team_Score()
-    {
-        return this.Team_Score;
-    }
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.gameObject.tag == "Player")
@@ -36,7 +32,6 @@ public class Score_System : MonoBehaviourPun
                 (player_Team == coll.gameObject.GetComponent<PlayerCtrl>().team))
             {
                 Add_Score();
-                PV.RPC("Add_Score", RpcTarget.Others);
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
             }
         }
@@ -48,9 +43,10 @@ public class Score_System : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             //점수 증가
+            Debug.Log("isMaster");
             Team_Score++;
-            photonView.RPC("Add_Score", RpcTarget.Others);
-            photonView.RPC("ApplyAdd_Score", RpcTarget.Others, Team_Score);
+            photonView.RPC("ApplyAdd_Score", RpcTarget.Others, Team_Score); //갱신 -> 다른 클라 값 변경
+            photonView.RPC("Add_Score", RpcTarget.Others);  //UI에 그려주는거 
         }
 
         //깃발 활성화 취소
