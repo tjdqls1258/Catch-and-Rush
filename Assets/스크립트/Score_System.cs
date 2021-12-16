@@ -30,11 +30,14 @@ public class Score_System : MonoBehaviourPun
     }
     private void OnTriggerEnter(Collider coll)
     {
-        if (coll.gameObject.GetComponent<PlayerCtrl>().get_flag == true &&
-            player_Team == coll.gameObject.GetComponent<PlayerCtrl>().team)
+        if (coll.gameObject.tag == "Player")
         {
-            Add_Score();
-            PV.RPC("Add_Score", RpcTarget.Others);
+            if ((coll.gameObject.GetComponent<PlayerCtrl>().get_flag == true) &&
+                (player_Team == coll.gameObject.GetComponent<PlayerCtrl>().team))
+            {
+                Add_Score();
+                PV.RPC("Add_Score", RpcTarget.Others);
+            }
         }
     }
 

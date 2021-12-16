@@ -167,6 +167,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if(team == "Red")
             {
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                Debug.Log("∑πµÂ∆¿ µÊ¡°");
                 get_flag = false;
             }
         }
@@ -175,6 +176,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if (team == "Blue")
             {
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                Debug.Log("∫Ì∑Á∆¿ µÊ¡°");
                 get_flag = false;
             }
         }
