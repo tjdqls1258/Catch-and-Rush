@@ -32,18 +32,13 @@ public class Score_System : MonoBehaviourPun
         {
             GameObject Player = coll.gameObject;
             Add_Score(Player);
-            PV.RPC("Add_Score", RpcTarget.All, Player);
+            PV.RPC("Add_Score", RpcTarget.AllBuffered, Player);
         }
     }
 
     [PunRPC]
     void Add_Score(GameObject Player)
     {
-        StartCoroutine(Add_Score_With_Trigger(Player));
-    }
-    IEnumerator Add_Score_With_Trigger(GameObject Player)
-    {
-        yield return null;
         //Á¡¼ö Áõ°¡
         Team_Score++;
         //±ê¹ß ¾ø¾Ö ÁÜ.

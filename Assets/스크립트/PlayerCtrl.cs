@@ -159,7 +159,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 Debug.Log("get_flag");
                 get_flag = false;
             }
-            Debug.Log("am");
             Knockback_pos = coll.transform.forward.normalized;
             this.transform.position += (Knockback_pos * 5.0f);
         }

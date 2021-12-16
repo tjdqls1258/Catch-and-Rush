@@ -1949,7 +1949,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 100082304}
   sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -7520,6 +7521,7 @@ GameObject:
   - component: {fileID: 475015072}
   - component: {fileID: 475015074}
   - component: {fileID: 475015073}
+  - component: {fileID: 475015075}
   m_Layer: 0
   m_Name: Team1_Score_Zone
   m_TagString: Untagged
@@ -7568,6 +7570,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 4, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &475015075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475015071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &476753257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14527,6 +14551,7 @@ GameObject:
   - component: {fileID: 1059632917}
   - component: {fileID: 1059632919}
   - component: {fileID: 1059632918}
+  - component: {fileID: 1059632920}
   m_Layer: 0
   m_Name: Team2_Score_Zone
   m_TagString: Untagged
@@ -14575,6 +14600,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 4, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1059632920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059632916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1062664486
 PrefabInstance:
   m_ObjectHideFlags: 0
