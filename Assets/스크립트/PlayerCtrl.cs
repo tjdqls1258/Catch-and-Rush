@@ -69,6 +69,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         tr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
         PV = GetComponent<PhotonView>();
+        flag = GameObject.FindGameObjectWithTag("flag");
 
         PV.ObservedComponents[0] = this;
 
@@ -119,15 +120,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             }
             tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10);
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10);
-        }
-        //만약 시간이 0보다 클 시
-        if (TSCS.get_Time() > 0)
-        {   //현재 시간을 변영
-            Time_Text_UI.text = TSCS.get_Time().ToString();
-        }
-        else
-        {
-            Time_Text_UI.text = "게임 종료";
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -193,7 +185,17 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         }
         else if (coll.gameObject.tag == "DAED_ZONE")
         {
-            tr = team_Spawner.transform;
+            //tr = team_Spawner.transform;
+            tr.position = new Vector3(100.0f, 5.0f, 40.0f);
+
+            if (get_flag)
+            {
+                flag.GetComponent<FlagCatch>().Iscatched = false;
+                flag.GetComponent<FollowFlag>().enabled = false;
+                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                flag.GetComponent<CapsuleCollider>().enabled = true;
+                flag.GetComponent<Rigidbody>().useGravity = true;
+            }
         }
     }
 
