@@ -11,8 +11,7 @@ public class Time_System_cs : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        time = start_Time;
-        
+        time = start_Time;       
     }
 
     // Update is called once per frame

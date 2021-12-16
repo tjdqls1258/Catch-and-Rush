@@ -22,7 +22,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Quaternion currRot;
 
     public TextMesh playerName;
-    string team = "a";
+    public string team = "Blue";
 
     public Transform firePos;
     public GameObject bullet;
@@ -37,12 +37,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     //플레이어가 떨어졌을 떄 되돌아가는 지점
     //아직 게임 시작할 때 정해진 팀에 해당 팀 스포너를 넣는 코드는 만들지 않음.
     private GameObject team_Spawner;
-
-    //시간을 관리
-    private Time_System_cs TSCS;
-    //플레이어 화면에 보여주는 시간 UI
-    public Text Time_Text_UI;
-
 
     IEnumerator CreateBullet()
     {
@@ -73,9 +67,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
         PV.ObservedComponents[0] = this;
 
-       
-        //타임 시스템 스크립트를 가져옴
-        TSCS =GameObject.Find("Time_System").GetComponent<Time_System_cs>();
         if (PV.IsMine)
         {
             Camera.main.GetComponent<FollowCam>().Target = tr.Find("Cube").gameObject.transform;
