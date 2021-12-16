@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -10,15 +9,17 @@ public class Score_System : MonoBehaviourPun
 
     public string player_Team;
     public GameObject flag;
-
-    private PhotonView PV;
+    public UI_IN_Game texts;
 
     //팀별 점수
     private int Team_Score = 0;
 
+    private PhotonView PV;
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
+        texts = GameObject.Find("Canvas").GetComponent<UI_IN_Game>();
     }
 
     public int get_Team_Score()
@@ -32,7 +33,7 @@ public class Score_System : MonoBehaviourPun
         {
             GameObject Player = coll.gameObject;
             Add_Score(Player);
-            PV.RPC("Add_Score", RpcTarget.AllBuffered, Player);
+            PV.RPC("Add_Score", RpcTarget.Others, Player);
         }
     }
 
@@ -53,5 +54,13 @@ public class Score_System : MonoBehaviourPun
         flag.GetComponent<CapsuleCollider>().enabled = true;
         //깃발 리지드바디.중력 사용
         flag.GetComponent<Rigidbody>().useGravity = true;
+        if(player_Team == "Blue")
+        {
+            texts.Blue_Score.text = Team_Score.ToString();
+        }
+        else if(player_Team == "Red")
+        {
+            texts.Red_Score.text = Team_Score.ToString();
+        }
     }
 }

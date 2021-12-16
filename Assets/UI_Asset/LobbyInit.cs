@@ -583,9 +583,5 @@ public class LobbyInit : MonoBehaviourPunCallbacks
                 photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_4.text);
             }
         }
-        else
-        {
-
-        }
     }
 }
