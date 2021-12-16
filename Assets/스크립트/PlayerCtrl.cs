@@ -162,22 +162,23 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             Knockback_pos = coll.transform.forward.normalized;
             this.transform.position += (Knockback_pos * 5.0f);
         }
-        if(coll.gameObject.tag == "GOLA_RED")
+        if(coll.gameObject.tag == "GOAL_RED")
         {
             if(team == "Red")
             {
+                get_flag = false;
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
                 Debug.Log("∑πµÂ∆¿ µÊ¡°");
-                get_flag = false;
+                
             }
         }
-        if (coll.gameObject.tag == "GOLA_BLUE")
+        if (coll.gameObject.tag == "GOAL_BLUE")
         {
             if (team == "Blue")
             {
+                get_flag = false;
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
                 Debug.Log("∫Ì∑Á∆¿ µÊ¡°");
-                get_flag = false;
             }
         }
     }

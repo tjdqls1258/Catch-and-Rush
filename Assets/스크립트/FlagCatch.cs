@@ -5,16 +5,21 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class FlagCatch : MonoBehaviourPun
+public class FlagCatch : MonoBehaviourPun, IPunObservable
 {
     public bool Iscatched = false;
     public GameObject FollowPlayer;
     public GameObject Flag;
+    private Transform tr;
+
+    private Vector3 currPos;
+    private Quaternion currRot;
 
     private PhotonView PV;
 
     private void Start()
     {
+        tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
     }
 
@@ -49,4 +54,19 @@ public class FlagCatch : MonoBehaviourPun
             Flag.GetComponent<CapsuleCollider>().enabled = true;
         }
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(tr.position);
+            stream.SendNext(tr.rotation);
+        }
+        else
+        {
+            currPos = (Vector3)stream.ReceiveNext();
+            currRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
 }

@@ -45,8 +45,13 @@ public class Score_System : MonoBehaviourPun
     [PunRPC]
     void Add_Score()
     {
-        //점수 증가
-        Team_Score++;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //점수 증가
+            Team_Score++;
+            photonView.RPC("ApplyAdd_Score", RpcTarget.Others, Team_Score);
+            photonView.RPC("Add_Score", RpcTarget.Others);
+        }
         //깃발 없애 줌.
         //Player.gameObject.GetComponent<PlayerCtrl>().get_flag = false;
         //깃발 활성화 취소
@@ -67,5 +72,11 @@ public class Score_System : MonoBehaviourPun
         {
             texts.Red_Score.text = Team_Score.ToString();
         }
+    }
+
+    [PunRPC]
+    public void ApplyAdd_Score(int score)
+    {
+        Team_Score = score;
     }
 }
