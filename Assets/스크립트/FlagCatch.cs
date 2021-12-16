@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class FlagCatch : MonoBehaviourPun, IPunObservable
+public class FlagCatch : MonoBehaviourPun
 {
     public bool Iscatched = false;
     public GameObject FollowPlayer;
@@ -27,11 +27,9 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "Player")
         {
-            Iscatched = true;
             FollowPlayer = coll.gameObject;
-            Flag.GetComponent<CapsuleCollider>().enabled = false;
-            Flag.GetComponent<FollowFlag>().enabled = true;
-            Flag.GetComponent<Rigidbody>().useGravity = false;
+            RPC_Get_Flag();
+            PV.RPC("RPC_Get_Flag", RpcTarget.Others);
         }
     }
     private void Update()
@@ -48,25 +46,25 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            Flag.GetComponent<FollowFlag>().enabled = false;
-            Flag.GetComponent<FlagCatch>().Iscatched = false;
-            Flag.GetComponent<Rigidbody>().useGravity = true;
-            Flag.GetComponent<CapsuleCollider>().enabled = true;
+            RPC_Drop_Flag();
+            PV.RPC("RPC_Drop_Flag", RpcTarget.Others);
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    [PunRPC]
+    public void RPC_Get_Flag()
     {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(tr.position);
-            stream.SendNext(tr.rotation);
-        }
-        else
-        {
-            currPos = (Vector3)stream.ReceiveNext();
-            currRot = (Quaternion)stream.ReceiveNext();
-        }
+        Iscatched = true;
+        Flag.GetComponent<CapsuleCollider>().enabled = false;
+        Flag.GetComponent<FollowFlag>().enabled = true;
+        Flag.GetComponent<Rigidbody>().useGravity = false;
     }
-
+    [PunRPC]
+    public void RPC_Drop_Flag()
+    {
+        Flag.GetComponent<FollowFlag>().enabled = false;
+        Flag.GetComponent<FlagCatch>().Iscatched = false;
+        Flag.GetComponent<Rigidbody>().useGravity = true;
+        Flag.GetComponent<CapsuleCollider>().enabled = true;
+    }
 }

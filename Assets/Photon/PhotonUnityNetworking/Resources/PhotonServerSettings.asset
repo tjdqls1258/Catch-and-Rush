@@ -52,6 +52,10 @@ MonoBehaviour:
   - Change_Team_RPC
   - RPC_Set_Team_Color
   - Add_Score
+  - ApplyAdd_Score
+  - Join_GOAL
+  - RPC_Drop_Flag
+  - RPC_Get_Flag
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

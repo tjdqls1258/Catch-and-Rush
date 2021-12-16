@@ -167,7 +167,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if(team == "Red")
             {
                 get_flag = false;
-                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                Join_GOAL();
+                PV.RPC("Join_GOAL", RpcTarget.Others);
                 Debug.Log("∑πµÂ∆¿ µÊ¡°");
                 
             }
@@ -177,12 +178,18 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if (team == "Blue")
             {
                 get_flag = false;
-                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+                Join_GOAL();
+                PV.RPC("Join_GOAL", RpcTarget.Others);
                 Debug.Log("∫Ì∑Á∆¿ µÊ¡°");
             }
         }
     }
 
+    [PunRPC]
+    public void Join_GOAL()
+    {
+        flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
+    }
     private void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.tag == "flag")
