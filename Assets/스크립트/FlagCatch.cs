@@ -66,6 +66,7 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
         Flag.GetComponent<CapsuleCollider>().enabled = false;
         Flag.GetComponent<FollowFlag>().enabled = true;
         Flag.GetComponent<Rigidbody>().useGravity = false;
+        Flag.GetComponent<FollowFlag>().set_this_FollowPlayer();
 
     }
     [PunRPC]
