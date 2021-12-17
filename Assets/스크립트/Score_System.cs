@@ -13,7 +13,8 @@ public class Score_System : MonoBehaviourPun
 
     //팀별 점수
     public int Team_Score = 0;
-
+    //깃발을 넣었을 시 얻을 수 있는 점수(피버 타임일 경우에는 2배)
+    public int Plus_Score = 1;
     private PhotonView PV;
 
     private void Start()
@@ -44,7 +45,7 @@ public class Score_System : MonoBehaviourPun
         {
             //점수 증가
             Debug.Log("isMaster");
-            Team_Score++;
+            Team_Score+= Plus_Score;
             photonView.RPC("ApplyAdd_Score", RpcTarget.Others, Team_Score); //갱신 -> 다른 클라 값 변경
             photonView.RPC("Add_Score", RpcTarget.Others);  //UI에 그려주는거 
         }
@@ -58,11 +59,11 @@ public class Score_System : MonoBehaviourPun
         //깃발 리지드바디.중력 사용
         flag.GetComponent<Rigidbody>().useGravity = true;
 
-        if(player_Team == "Blue")
+        if (player_Team == "Blue")
         {
             texts.Blue_Score.text = Team_Score.ToString();
         }
-        else if(player_Team == "Red")
+        else if (player_Team == "Red")
         {
             texts.Red_Score.text = Team_Score.ToString();
         }

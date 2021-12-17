@@ -10,11 +10,12 @@ public class Time_System_cs : MonoBehaviour
     float Sec;
     float time;
     //초기 시간 값
-    float start_Time=20;
-
+    float start_Time = 20;
+    //피버인지 확인하기 위한 변수
+    bool piver = false;
     //승리 팀 저장할 string
     string Winner = "";
-
+    [SerializeField]
     private GameObject player;
     private GameObject blue_team;
     private GameObject red_team;
@@ -29,7 +30,6 @@ public class Time_System_cs : MonoBehaviour
     {
         time = start_Time;
         texts = GameObject.Find("InGame_UI").GetComponent<UI_IN_Game>();
-        player = GameObject.FindGameObjectWithTag("Player");
         blue_team = GameObject.FindGameObjectWithTag("GOAL_BLUE");
         red_team = GameObject.FindGameObjectWithTag("GOAL_RED");
     }
@@ -51,12 +51,12 @@ public class Time_System_cs : MonoBehaviour
             time = 0;
 
             //어느쪽의 점수가 높은지 점수판별 후 높은쪽의 팀을 string에 추가
-            if(blue_team.GetComponent<Score_System>().Team_Score >
+            if (blue_team.GetComponent<Score_System>().Team_Score >
                 red_team.GetComponent<Score_System>().Team_Score)
             {
                 Winner = "Blue team Win!";
             }
-            else if(blue_team.GetComponent<Score_System>().Team_Score <
+            else if (blue_team.GetComponent<Score_System>().Team_Score <
                 red_team.GetComponent<Score_System>().Team_Score)
             {
                 Winner = "Red team Win!";
@@ -73,11 +73,15 @@ public class Time_System_cs : MonoBehaviour
             texts.Winnerteam.text = Winner;
         }
 
-        if(time <= 60 && time>=0)
+        if (time <= 60 && time >= 0&& piver==false)
         {
-            //피버타임
-            //player.GetComponent<PlayerCtrl>().speed *= 2.0f; //이동속도 증가
-            //공속증가 => 코루틴 건드려야할듯
+            player = GameObject.FindGameObjectWithTag("Player");
+            piver = true;
+            //플레이 이속 2배
+            player.GetComponent<PlayerCtrl>().speed *= 2.0f;
+            //깃발 점수 2배
+            GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
+            GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
         }
     }
 

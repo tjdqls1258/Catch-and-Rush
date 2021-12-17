@@ -38,6 +38,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     //아직 게임 시작할 때 정해진 팀에 해당 팀 스포너를 넣는 코드는 만들지 않음.
     private GameObject team_Spawner;
 
+
+    public float fire_delay=0.5f;
+    bool shoot_Fire = true;
     IEnumerator CreateBullet()
     {
         Instantiate(bullet, firePos.position, firePos.rotation);
@@ -46,9 +49,24 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     }
 
     void Fire()
+    {   if (shoot_Fire)
+        {
+            StartCoroutine(CreateBullet());
+            PV.RPC("FireRPC", RpcTarget.Others);
+            shoot_Fire = false;
+        }
+
+       
+
+       
+    }
+
+    IEnumerable Fire_delay_sec()
     {
-        StartCoroutine(CreateBullet());
-        PV.RPC("FireRPC", RpcTarget.Others);
+
+        yield return new WaitForSeconds(fire_delay);
+        shoot_Fire = true;
+        
     }
 
     [PunRPC]
@@ -97,6 +115,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             {
                 animator.SetTrigger("Attack");
                 Fire();
+
+
             }
         }
         else if (!PV.IsMine && isDie == false)
