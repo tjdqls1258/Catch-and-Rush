@@ -32,7 +32,7 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
             Debug.Log("플레이어 충돌");
         }
     }
-    private void OnCollisionEnter(Collision coll)
+    private void OnCollisionStay(Collision coll)
     {
         if (coll.gameObject.tag == "DAED_ZONE")
         {
@@ -42,16 +42,6 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     }
     private void Update()
     {
-        //if (FollowPlayer)
-        //{
-        //    if (!FollowPlayer.GetComponent<PlayerCtrl>().get_flag)
-        //    {
-        //        Flag.GetComponent<FollowFlag>().enabled = false;
-        //        Flag.GetComponent<FlagCatch>().Iscatched = false;
-        //        Flag.GetComponent<Rigidbody>().useGravity = true;
-        //        Flag.GetComponent<CapsuleCollider>().enabled = true;
-        //    }
-        //}
     }
 
     [PunRPC]
@@ -83,11 +73,12 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     void RPC_Drop_Flag()
     {
         FollowPlayer_Name = null;
-        photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<Rigidbody>().useGravity = true;
         Flag.GetComponent<CapsuleCollider>().enabled = true;
+        photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
