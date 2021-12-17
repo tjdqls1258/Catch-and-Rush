@@ -10,7 +10,7 @@ public class Time_System_cs : MonoBehaviour
     float Sec;
     float time;
     //초기 시간 값
-    float start_Time=20;
+    float start_Time = 20;
 
     //승리 팀 저장할 string
     string Winner = "";
@@ -75,7 +75,7 @@ public class Time_System_cs : MonoBehaviour
 
         if(time <= 60 && time>=0)
         {
-            //피버타임
+            //피버타임 -> 이속증가, 깃발점수 두배, 공속증가(playerctrl 코루틴)
             //player.GetComponent<PlayerCtrl>().speed *= 2.0f; //이동속도 증가
             //공속증가 => 코루틴 건드려야할듯
         }
