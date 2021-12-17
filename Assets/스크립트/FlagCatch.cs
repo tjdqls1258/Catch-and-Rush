@@ -8,8 +8,9 @@ using Photon.Realtime;
 public class FlagCatch : MonoBehaviourPun
 {
     public bool Iscatched = false;
-    public GameObject FollowPlayer;
     public GameObject Flag;
+
+    public Transform FollowPlayer;
     private Transform tr;
 
     private Vector3 currPos;
@@ -26,8 +27,7 @@ public class FlagCatch : MonoBehaviourPun
     {
         if ((coll.gameObject.tag == "Player") && (!Iscatched))
         {
-            RPC_Get_Flag();
-            FollowPlayer = coll.gameObject;
+            RPC_Get_Flag(coll.transform);
             PV.RPC("RPC_Get_Flag", RpcTarget.Others);
             Debug.Log("플레이어 충돌");
         }
@@ -53,17 +53,22 @@ public class FlagCatch : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPC_Get_Flag()
+    public void RPC_Get_Flag(Transform target)
     {
-        Iscatched = true;
-        Flag.GetComponent<CapsuleCollider>().enabled = false;
-        Flag.GetComponent<FollowFlag>().enabled = true;
-        Flag.GetComponent<Rigidbody>().useGravity = false;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FollowPlayer = target;
+            Iscatched = true;
+            Flag.GetComponent<CapsuleCollider>().enabled = false;
+            Flag.GetComponent<FollowFlag>().enabled = true;
+            Flag.GetComponent<Rigidbody>().useGravity = false;
+        }
     }
 
     [PunRPC]
     public void RPC_Drop_Flag()
     {
+        FollowPlayer = null;
         Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<FlagCatch>().Iscatched = false;

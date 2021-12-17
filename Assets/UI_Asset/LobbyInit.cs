@@ -231,8 +231,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(PlayerPrefs.GetString("PlayerName"));
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(PlayerPrefs.GetString("Team_prefs"));
 
-
-
         yield return null;
     }
     private void OnGUI()

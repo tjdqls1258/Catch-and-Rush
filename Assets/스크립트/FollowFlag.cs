@@ -21,7 +21,7 @@ public class FollowFlag : MonoBehaviour
     {
         if (gameObject.GetComponent<FlagCatch>().Iscatched)
         {
-            Player = gameObject.GetComponent<FlagCatch>().FollowPlayer.transform;
+            Player = gameObject.GetComponent<FlagCatch>().FollowPlayer;
             if (Player == null)
             {
                 return;
