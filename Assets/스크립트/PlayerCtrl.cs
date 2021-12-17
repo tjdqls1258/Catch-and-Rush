@@ -15,6 +15,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Animator animator;
     private PhotonView PV;
 
+    const float Basic_speed = 10f;//기본 속도
+
     public float speed = 10f;
     public float rotSpeed = 100f;
 
@@ -249,5 +251,21 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         yield return new WaitForSeconds(delayTime);
         GetComponent<MeshRenderer>().enabled = visibled;
+    }
+
+    private void OnTriggerStay(Collider coll)
+    {
+        if (coll.tag == "Path")
+        {
+            speed = Basic_speed*1.5f;
+        }
+    }
+    private void OnTriggerExit(Collider coll)
+    {
+
+        if (coll.tag == "Path")
+        {
+            speed = Basic_speed;
+        }
     }
 }
