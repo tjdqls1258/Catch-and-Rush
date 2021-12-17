@@ -5,12 +5,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class FlagCatch : MonoBehaviourPun
+public class FlagCatch : MonoBehaviourPun, IPunObservable
 {
     public bool Iscatched = false;
     public GameObject Flag;
 
-    public Transform FollowPlayer;
     public string FollowPlayer_Name;
     private Transform tr;
 
@@ -32,19 +31,25 @@ public class FlagCatch : MonoBehaviourPun
             Debug.Log("플레이어 충돌");
         }
     }
-
+    private void OnTriggerStay(Collider coll)
+    {
+        if (coll.gameObject.tag == "DAED_ZONE_FLAG")
+        {
+            RPC_Drop_Flag();
+            tr.position = new Vector3(70.0f, 5.0f, 40.0f);
+        }
+    }
+    private void OnCollisionStay(Collision coll)
+    {
+        if (coll.gameObject.tag == "DAED_ZONE_FLAG")
+        {
+            RPC_Drop_Flag();
+            tr.position = new Vector3(70.0f, 5.0f, 40.0f);
+        }
+    }
     private void Update()
     {
-        if (FollowPlayer)
-        {
-            if (!FollowPlayer.GetComponent<PlayerCtrl>().get_flag)
-            {
-                Flag.GetComponent<FollowFlag>().enabled = false;
-                Flag.GetComponent<FlagCatch>().Iscatched = false;
-                Flag.GetComponent<Rigidbody>().useGravity = true;
-                Flag.GetComponent<CapsuleCollider>().enabled = true;
-            }
-        }
+
     }
 
     [PunRPC]
@@ -53,12 +58,14 @@ public class FlagCatch : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             FollowPlayer_Name = PlayerName;
+            photonView.RPC("RPC_Get_Flag", RpcTarget.Others, FollowPlayer_Name);
             photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         }
         Iscatched = true;
         Flag.GetComponent<CapsuleCollider>().enabled = false;
         Flag.GetComponent<FollowFlag>().enabled = true;
         Flag.GetComponent<Rigidbody>().useGravity = false;
+        Flag.GetComponent<FollowFlag>().set_this_FollowPlayer();
 
     }
     [PunRPC]
@@ -78,11 +85,24 @@ public class FlagCatch : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             FollowPlayer_Name = null;
+            photonView.RPC("RPC_Drop_Flag", RpcTarget.Others);
             photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         }
         Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<Rigidbody>().useGravity = true;
         Flag.GetComponent<CapsuleCollider>().enabled = true;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(FollowPlayer_Name);
+        }
+        else
+        {
+            this.FollowPlayer_Name = (string)stream.ReceiveNext();
+        }
     }
 }

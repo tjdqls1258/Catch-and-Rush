@@ -186,8 +186,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if(team == "Red")
             {
                 get_flag = false;
-                Join_GOAL();
-                PV.RPC("Join_GOAL", RpcTarget.Others);                
+                flag.GetComponent<FlagCatch>().Drop_Flag();
             }
         }
         if (coll.gameObject.tag == "GOAL_BLUE")
@@ -195,8 +194,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if (team == "Blue")
             {
                 get_flag = false;
-                Join_GOAL();
-                PV.RPC("Join_GOAL", RpcTarget.Others);
+                flag.GetComponent<FlagCatch>().Drop_Flag();
             }
         }
         if (coll.gameObject.tag == "flag")
@@ -216,15 +214,14 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "DAED_ZONE")
         {
-            //tr = team_Spawner.transform;
-            tr.position = new Vector3(100.0f, 5.0f, 40.0f);
-
             if (get_flag)
             {
+                get_flag = false;
+                Join_GOAL();
+                PV.RPC("Join_GOAL", RpcTarget.Others);
                 flag.GetComponent<FlagCatch>().Drop_Flag();
-                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
-
             }
+            tr.position = new Vector3(100.0f, 5.0f, 40.0f);
         }
     }
 

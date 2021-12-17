@@ -21,12 +21,16 @@ public class FollowFlag : MonoBehaviour
     {
         if (gameObject.GetComponent<FlagCatch>().Iscatched)
         {
-            Player = GameObject.Find(GetComponent<FlagCatch>().FollowPlayer_Name).gameObject.transform;
             if (Player == null)
             {
                 return;
             }
             flagtr.position = Vector3.Lerp(flagtr.position, Player.position + (Vector3.up * hight), Time.deltaTime * dampTrace);
         }
+    }
+
+    public void set_this_FollowPlayer()
+    {
+        Player = GameObject.Find(GetComponent<FlagCatch>().FollowPlayer_Name).gameObject.transform;
     }
 }
