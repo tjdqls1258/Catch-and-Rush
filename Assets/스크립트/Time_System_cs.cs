@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Time_System_cs : MonoBehaviour
+public class Time_System_cs : MonoBehaviourPun, IPunObservable
 {   //시간
     float Min;
     float Sec;
@@ -25,6 +26,8 @@ public class Time_System_cs : MonoBehaviour
 
     public UI_IN_Game texts;
 
+    private PhotonView PV;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,7 @@ public class Time_System_cs : MonoBehaviour
         texts = GameObject.Find("InGame_UI").GetComponent<UI_IN_Game>();
         blue_team = GameObject.FindGameObjectWithTag("GOAL_BLUE");
         red_team = GameObject.FindGameObjectWithTag("GOAL_RED");
+        PV = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
@@ -42,9 +46,9 @@ public class Time_System_cs : MonoBehaviour
         //타임이 0이 될 때 까지 시간 감소
         if (time >= 0)
         {
+            AddTimer(-Time.deltaTime);
             texts.Time_min.text = Min.ToString();
             texts.Time_sec.text = Sec.ToString();
-            time -= Time.deltaTime;
         }
         else //시간이 0이하로 즉, 게임 끝
         {
@@ -76,9 +80,8 @@ public class Time_System_cs : MonoBehaviour
             texts.Winnerteam.text = Winner;
         }
 
-        if (time <= 60 && time >= 0&& piver==false)
+        if ((time <= 60) && (time >= 0) && (piver==false) && (player))
         {
-            player = GameObject.FindGameObjectWithTag("Player");
             piver = true;
             //플레이 이속 2배
             player.GetComponent<PlayerCtrl>().speed *= 2.0f;
@@ -91,5 +94,45 @@ public class Time_System_cs : MonoBehaviour
     public int get_Time()
     {
         return ((int)time);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(time);
+        }
+        else
+        {
+            Set_Time((float)stream.ReceiveNext());
+        }
+    }
+    [PunRPC]
+    public void AddTimer(float deleteTime)
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            time += deleteTime;
+            String_Text();
+            
+            photonView.RPC("Set_Time", RpcTarget.Others, time);
+            photonView.RPC("String_Text", RpcTarget.Others);
+        }
+    }
+    [PunRPC]
+    public void Set_Time(float timer)
+    {
+        time = timer;
+    }
+    [PunRPC]
+    public void String_Text()
+    {
+         texts.Time_min.text = Min.ToString();
+         texts.Time_sec.text = Sec.ToString();
+    }
+
+    public void SetPlayer(GameObject Player)
+    {
+        player = Player;
     }
 }
