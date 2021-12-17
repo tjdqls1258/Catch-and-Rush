@@ -10,7 +10,6 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     public bool Iscatched = false;
     public GameObject Flag;
 
-    public Transform FollowPlayer;
     public string FollowPlayer_Name;
     private Transform tr;
 
@@ -83,13 +82,16 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void RPC_Drop_Flag()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FollowPlayer_Name = null;
+            photonView.RPC("RPC_Drop_Flag", RpcTarget.Others);
+            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
+        }
+        Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<Rigidbody>().useGravity = true;
         Flag.GetComponent<CapsuleCollider>().enabled = true;
-        FollowPlayer_Name = null;
-        Iscatched = false;
-        photonView.RPC("RPC_Drop_Flag", RpcTarget.Others);
-        photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
