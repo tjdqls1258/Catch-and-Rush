@@ -11,6 +11,7 @@ public class FlagCatch : MonoBehaviourPun
     public GameObject Flag;
 
     public Transform FollowPlayer;
+    public string FollowPlayer_Name;
     private Transform tr;
 
     private Vector3 currPos;
@@ -27,8 +28,7 @@ public class FlagCatch : MonoBehaviourPun
     {
         if ((coll.gameObject.tag == "Player") && (!Iscatched))
         {
-            RPC_Get_Flag(coll.transform);
-            PV.RPC("RPC_Get_Flag", RpcTarget.Others);
+            RPC_Get_Flag(coll.gameObject.name);
             Debug.Log("플레이어 충돌");
         }
     }
@@ -48,12 +48,12 @@ public class FlagCatch : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPC_Get_Flag(Transform target)
+    public void RPC_Get_Flag(string PlayerName)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            FollowPlayer = target;
-            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer);
+            FollowPlayer_Name = PlayerName;
+            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         }
         Iscatched = true;
         Flag.GetComponent<CapsuleCollider>().enabled = false;
@@ -62,22 +62,26 @@ public class FlagCatch : MonoBehaviourPun
 
     }
     [PunRPC]
-    public void Rpc_Set_Target(Transform target)
+    void Rpc_Set_Target(string target)
     {
-        FollowPlayer = target;
+        FollowPlayer_Name = target;
+    }
+
+    public void Drop_Flag()
+    {
+        RPC_Drop_Flag();
     }
 
     [PunRPC]
-    public void RPC_Drop_Flag()
+    void RPC_Drop_Flag()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            FollowPlayer = null;
-            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer);
+            FollowPlayer_Name = null;
+            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         }
         Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
-        Flag.GetComponent<FlagCatch>().Iscatched = false;
         Flag.GetComponent<Rigidbody>().useGravity = true;
         Flag.GetComponent<CapsuleCollider>().enabled = true;
     }

@@ -61,6 +61,7 @@ MonoBehaviour:
   - Set_Time
   - String_Text
   - Set_Target
+  - Rpc_Set_Target
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -175,8 +175,8 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             animator.SetTrigger("IsHit");
             if (get_flag == true)
             {
-                Debug.Log("get_flag");
                 get_flag = false;
+                flag.GetComponent<FlagCatch>().Drop_Flag();
             }
             Knockback_pos = coll.transform.forward.normalized;
             this.transform.position += (Knockback_pos * 5.0f);
@@ -221,12 +221,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
             if (get_flag)
             {
-                flag.GetComponent<FlagCatch>().FollowPlayer = null;
-                flag.GetComponent<FlagCatch>().Iscatched = false;
-                flag.GetComponent<FollowFlag>().enabled = false;
+                flag.GetComponent<FlagCatch>().Drop_Flag();
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
-                flag.GetComponent<CapsuleCollider>().enabled = true;
-                flag.GetComponent<Rigidbody>().useGravity = true;
+
             }
         }
     }
