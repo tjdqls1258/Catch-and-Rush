@@ -28,8 +28,8 @@ public class FlagCatch : MonoBehaviourPun
         if (coll.gameObject.tag == "Player")
         {
             FollowPlayer = coll.gameObject;
+            GameObject Target = FollowPlayer;
             RPC_Get_Flag();
-            PV.RPC("RPC_Get_Flag", RpcTarget.Others);
         }
     }
     private void Update()
@@ -54,10 +54,20 @@ public class FlagCatch : MonoBehaviourPun
     [PunRPC]
     public void RPC_Get_Flag()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("RPC_Set_TargetPlayer", RpcTarget.Others, FollowPlayer);
+            photonView.RPC("RPC_Get_Flag", RpcTarget.Others);
+        }
         Iscatched = true;
         Flag.GetComponent<CapsuleCollider>().enabled = false;
         Flag.GetComponent<FollowFlag>().enabled = true;
         Flag.GetComponent<Rigidbody>().useGravity = false;
+    }
+    [PunRPC]
+    public void RPC_Set_TargetPlayer(GameObject Target)
+    {
+        FollowPlayer = Target;
     }
     [PunRPC]
     public void RPC_Drop_Flag()

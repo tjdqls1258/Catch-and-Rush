@@ -56,6 +56,7 @@ MonoBehaviour:
   - Join_GOAL
   - RPC_Drop_Flag
   - RPC_Get_Flag
+  - RPC_Set_TargetPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
