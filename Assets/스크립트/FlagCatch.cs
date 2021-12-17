@@ -59,6 +59,7 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             FollowPlayer_Name = PlayerName;
+            photonView.RPC("RPC_Get_Flag", RpcTarget.Others, FollowPlayer_Name);
             photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         }
         Iscatched = true;
@@ -86,8 +87,8 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
         Flag.GetComponent<CapsuleCollider>().enabled = true;
         FollowPlayer_Name = null;
         Iscatched = false;
+        photonView.RPC("RPC_Drop_Flag", RpcTarget.Others, FollowPlayer_Name);
         photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
-        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
