@@ -36,21 +36,22 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "DAED_ZONE")
         {
+            RPC_Drop_Flag();
             tr.position = new Vector3(70.0f, 5.0f, 40.0f);
         }
     }
     private void Update()
     {
-        if (FollowPlayer)
-        {
-            if (!FollowPlayer.GetComponent<PlayerCtrl>().get_flag)
-            {
-                Flag.GetComponent<FollowFlag>().enabled = false;
-                Flag.GetComponent<FlagCatch>().Iscatched = false;
-                Flag.GetComponent<Rigidbody>().useGravity = true;
-                Flag.GetComponent<CapsuleCollider>().enabled = true;
-            }
-        }
+        //if (FollowPlayer)
+        //{
+        //    if (!FollowPlayer.GetComponent<PlayerCtrl>().get_flag)
+        //    {
+        //        Flag.GetComponent<FollowFlag>().enabled = false;
+        //        Flag.GetComponent<FlagCatch>().Iscatched = false;
+        //        Flag.GetComponent<Rigidbody>().useGravity = true;
+        //        Flag.GetComponent<CapsuleCollider>().enabled = true;
+        //    }
+        //}
     }
 
     [PunRPC]
