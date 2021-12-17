@@ -221,7 +221,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             {
                 get_flag = false;
                 flag.GetComponent<FlagCatch>().Drop_Flag();
-                flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
             }
             tr.position = new Vector3(100.0f, 5.0f, 40.0f);
         }
