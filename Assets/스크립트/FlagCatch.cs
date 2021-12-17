@@ -61,7 +61,7 @@ public class FlagCatch : MonoBehaviourPun
         Flag.GetComponent<Rigidbody>().useGravity = false;
 
     }
-    [PunRpc]
+    [PunRPC]
     public void Rpc_Set_Target(Transform target)
     {
         FollowPlayer = target;
