@@ -54,10 +54,6 @@ public class FlagCatch : MonoBehaviourPun
     [PunRPC]
     public void RPC_Get_Flag()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("RPC_Get_Flag", RpcTarget.Others);
-        }
         Iscatched = true;
         Flag.GetComponent<CapsuleCollider>().enabled = false;
         Flag.GetComponent<FollowFlag>().enabled = true;

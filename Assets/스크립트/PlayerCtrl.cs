@@ -49,24 +49,17 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     }
 
     void Fire()
-    {   if (shoot_Fire)
-        {
-            StartCoroutine(CreateBullet());
-            PV.RPC("FireRPC", RpcTarget.Others);
-            shoot_Fire = false;
-        }
-
-       
-
-       
+    {
+        StartCoroutine(CreateBullet());
+        PV.RPC("FireRPC", RpcTarget.Others);
+        shoot_Fire = false;
+        StartCoroutine(Fire_delay_sec());
     }
 
-    IEnumerable Fire_delay_sec()
+    IEnumerator Fire_delay_sec()
     {
-
         yield return new WaitForSeconds(fire_delay);
         shoot_Fire = true;
-        
     }
 
     [PunRPC]
@@ -111,12 +104,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 animator.SetFloat("Speed", 0.0f);
             }
 
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && shoot_Fire)
             {
                 animator.SetTrigger("Attack");
                 Fire();
-
-
             }
         }
         else if (!PV.IsMine && isDie == false)

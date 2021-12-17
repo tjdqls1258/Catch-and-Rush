@@ -229,7 +229,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             0);
         Debug.Log("¿Ã∏ß : " + playerName);
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(PlayerPrefs.GetString("PlayerName"));
-        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(playerTeam);
+        tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(PlayerPrefs.GetString("Team_prefs"));
         yield return null;
     }
     private void OnGUI()
@@ -467,21 +467,25 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         {
             Playe_1.GetComponent<Change_Text>().Set_Team(true);
             playerTeam = "Red";
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
         else if (Playe_2.GetComponent<Change_Text>().setText(name))
         {
             Playe_2.GetComponent<Change_Text>().Set_Team(true);
             playerTeam = "Red";
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
         else if (Playe_3.GetComponent<Change_Text>().setText(name))
         {
             Playe_3.GetComponent<Change_Text>().Set_Team(false);
             playerTeam = "Blue";
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
         else if (Playe_4.GetComponent<Change_Text>().setText(name))
         {
             Playe_4.GetComponent<Change_Text>().Set_Team(false);
             playerTeam = "Blue";
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
     }
 
@@ -503,6 +507,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
                 Playe_1.GetComponent<Change_Text>().Set_Team(true);
                 playerTeam = "Red";
             }
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
         else if (playerName == Playe_2.GetComponent<Change_Text>().self.text)
         {
@@ -516,6 +521,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
                 Playe_2.GetComponent<Change_Text>().Set_Team(true);
                 playerTeam = "Red";
             }
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
         else if (playerName == Playe_3.GetComponent<Change_Text>().self.text)
         {
@@ -529,6 +535,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
                 Playe_3.GetComponent<Change_Text>().Set_Team(true);
                 playerTeam = "Red";
             }
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
         else
         {
@@ -542,6 +549,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
                 Playe_4.GetComponent<Change_Text>().Set_Team(true);
                 playerTeam = "Red";
             }
+            PlayerPrefs.SetString("Team_prefs", playerTeam);
         }
     }
     [PunRPC]

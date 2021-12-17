@@ -55,15 +55,18 @@ public class Time_System_cs : MonoBehaviour
                 red_team.GetComponent<Score_System>().Team_Score)
             {
                 Winner = "Blue team Win!";
+                texts.Winnerteam.color = new Color(0.0f, 0f, 1.0f);
             }
             else if (blue_team.GetComponent<Score_System>().Team_Score <
                 red_team.GetComponent<Score_System>().Team_Score)
             {
                 Winner = "Red team Win!";
+                texts.Winnerteam.color = new Color(1.0f, 0f, 0f);
             }
             else
             {
                 Winner = "Draw!";
+                texts.Winnerteam.color = new Color(0.0f, 1.0f, 0f);
             }
 
 

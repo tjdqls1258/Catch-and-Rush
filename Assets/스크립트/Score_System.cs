@@ -46,8 +46,8 @@ public class Score_System : MonoBehaviourPun
             //점수 증가
             Debug.Log("isMaster");
             Team_Score+= Plus_Score;
-            photonView.RPC("ApplyAdd_Score", RpcTarget.Others, Team_Score); //갱신 -> 다른 클라 값 변경
-            photonView.RPC("Add_Score", RpcTarget.Others);  //UI에 그려주는거 
+            photonView.RPC("ApplyAdd_Score", RpcTarget.Others, Team_Score);
+            photonView.RPC("Add_Score", RpcTarget.Others);
         }
 
         //깃발 활성화 취소
