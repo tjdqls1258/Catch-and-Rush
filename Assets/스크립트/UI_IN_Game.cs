@@ -9,5 +9,7 @@ public class UI_IN_Game : MonoBehaviour
 
     public Text Blue_Score;
     public Text Red_Score;
-    public Text Timer;
+    public Text Time_min;
+    public Text Time_sec;
+    public Text Winnerteam;
 }

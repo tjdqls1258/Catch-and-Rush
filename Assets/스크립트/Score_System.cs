@@ -12,14 +12,14 @@ public class Score_System : MonoBehaviourPun
     public UI_IN_Game texts;
 
     //ÆÀº° Á¡¼ö
-    private int Team_Score = 0;
+    public int Team_Score = 0;
 
     private PhotonView PV;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
-        texts = GameObject.Find("Canvas").GetComponent<UI_IN_Game>();
+        texts = GameObject.Find("InGame_UI").GetComponent<UI_IN_Game>();
         texts.Blue_Score.text = Team_Score.ToString();
         texts.Red_Score.text = Team_Score.ToString();
     }
