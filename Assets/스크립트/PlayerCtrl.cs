@@ -26,7 +26,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     public TextMesh playerName;
     public string team = "";
 
+    private Transform team_Spawner;
     public Transform firePos;
+
     public GameObject bullet;
     public GameObject flag;
 
@@ -38,7 +40,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     public bool get_flag = false;
     //플레이어가 떨어졌을 떄 되돌아가는 지점
     //아직 게임 시작할 때 정해진 팀에 해당 팀 스포너를 넣는 코드는 만들지 않음.
-    private GameObject team_Spawner;
+
 
 
     public float fire_delay=0.5f;
@@ -156,6 +158,14 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     public void SetPlayerTeam(string team)
     {
         this.team = team;
+        if(team == "Red")
+        {
+            team_Spawner = GameObject.Find("RedTeam_SpwanPoint").transform;
+        }
+        else
+        {
+            team_Spawner = GameObject.Find("BlueTeam_SpwanPoint").transform;
+        }
     }
 
     public string GetPlayerTeam()
@@ -221,7 +231,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 PV.RPC("Join_GOAL", RpcTarget.Others);
                 flag.GetComponent<FlagCatch>().Drop_Flag();
             }
-            tr.position = new Vector3(100.0f, 5.0f, 40.0f);
+            tr.position = team_Spawner.position;
         }
     }
 

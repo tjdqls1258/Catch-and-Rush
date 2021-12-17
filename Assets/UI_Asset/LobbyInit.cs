@@ -21,10 +21,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     string playerTeam = "";
     string connectionState = "";
 
-    public string chatMessage;
-    Text chatText;
-    ScrollRect scroll_rect = null;
-
     PhotonView pv;
 
     Text connectionInfoText;
@@ -68,14 +64,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = "MyFps 1.0";
         PhotonNetwork.ConnectUsingSettings();
         pv = GetComponent<PhotonView>();
-        if (GameObject.Find("ChatText") != null)
-        {
-            chatText = GameObject.Find("ChatText").GetComponent<Text>();
-        }
-        if (GameObject.Find("Scroll View") != null)
-        {
-            scroll_rect = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
-        }
         if (GameObject.Find("ConnectionInfoText") != null)
         {
             connectionInfoText = GameObject.Find("ConnectionInfoText").GetComponent<Text>();
@@ -105,24 +93,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         if ((isGameStart == false) && (SceneManager.GetActiveScene().name == "MainScene") && (isLoggIn == true))
         {
             isGameStart = true;
-            if (GameObject.Find("ChatText") != null)
-            {
-                chatText = GameObject.Find("ChatText").GetComponent<Text>();
-            }
-            if (GameObject.Find("Scroll View") != null)
-            {
-                scroll_rect = GameObject.Find("Scroll View").GetComponent<ScrollRect>();
-            }
-
-            if (GameObject.Find("InputFieldChat") != null)
-            {
-                PlayerInput = GameObject.Find("InputFieldChat").GetComponent<InputField>();
-            }
-            if (GameObject.Find("ChattingButton") != null)
-            {
-                chattingBtn = GameObject.Find("ChattingButton").GetComponent<Button>();
-                chattingBtn.onClick.AddListener(SetPlayerName);
-            }
             StartCoroutine(CreatPlayer());
         }
     }
@@ -223,8 +193,17 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(0.5f);
         }
+        Vector3 team_Spawner;
+        if (playerTeam == "Red")
+        {
+            team_Spawner = GameObject.Find("RedTeam_SpwanPoint").transform.position;
+        }
+        else
+        {
+            team_Spawner = GameObject.Find("BlueTeam_SpwanPoint").transform.position;
+        }
         GameObject tempPlayer = PhotonNetwork.Instantiate("Player_01",
-            new Vector3(2, 1, 11),
+            team_Spawner,
             Quaternion.identity,
             0);
         Debug.Log("이름 : " + playerName);
@@ -250,25 +229,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             Debug.Log("Connect 시도" + isGameStart + ", " + isLoggIn);
             Connect();
         }
-        else
-        {
-            chatMessage = PlayerInput.text;
-            PlayerInput.text = string.Empty;
-            pv.RPC("ChatInfo", RpcTarget.All, chatMessage);
-        }
-    }
-
-    public void ShowChat(string chat)
-    {
-        chatText.text += chat + "\n";
-
-        scroll_rect.verticalNormalizedPosition = 0.0f;
-    }
-
-    [PunRPC]
-    public void ChatInfo(string sChat, PhotonMessageInfo info)
-    {
-        ShowChat(sChat);
     }
 
     public void CreateRoomBtnOnClick()
