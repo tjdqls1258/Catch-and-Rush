@@ -15,7 +15,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     private Animator animator;
     private PhotonView PV;
 
-    const float Basic_speed = 10f;//기본 속도
+    public float Basic_speed = 10f;//기본 속도
 
     public float speed = 10f;
     public float rotSpeed = 100f;

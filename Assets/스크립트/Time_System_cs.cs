@@ -84,7 +84,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         {
             piver = true;
             //플레이 이속 2배
-            player.GetComponent<PlayerCtrl>().speed *= 2.0f;
+            player.GetComponent<PlayerCtrl>().Basic_speed *= 2.0f;
             //깃발 점수 2배
             GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
             GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
