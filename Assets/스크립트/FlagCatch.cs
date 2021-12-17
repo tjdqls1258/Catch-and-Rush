@@ -88,7 +88,7 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
         Flag.GetComponent<CapsuleCollider>().enabled = true;
         FollowPlayer_Name = null;
         Iscatched = false;
-        photonView.RPC("RPC_Drop_Flag", RpcTarget.Others, FollowPlayer_Name);
+        photonView.RPC("RPC_Drop_Flag", RpcTarget.Others);
         photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
     }
 
