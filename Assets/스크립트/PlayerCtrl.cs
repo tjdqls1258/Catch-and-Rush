@@ -216,9 +216,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     {
         if (coll.gameObject.tag == "DAED_ZONE")
         {
-            //tr = team_Spawner.transform;
             if (get_flag)
             {
+                Join_GOAL();
+                PV.RPC("Join_GOAL", RpcTarget.Others);
                 get_flag = false;
                 flag.GetComponent<FlagCatch>().Drop_Flag();
             }
