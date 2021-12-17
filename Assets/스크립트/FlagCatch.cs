@@ -50,10 +50,7 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     }
     private void Update()
     {
-        if(FollowPlayer_Name == null)
-        {
-            RPC_Drop_Flag();
-        }
+
     }
 
     [PunRPC]
