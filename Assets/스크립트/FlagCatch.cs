@@ -30,6 +30,7 @@ public class FlagCatch : MonoBehaviourPun
             FollowPlayer = coll.gameObject;
             GameObject Target = FollowPlayer;
             RPC_Get_Flag();
+            PV.RPC("RPC_Get_Flag", RpcTarget.Others);
         }
     }
     private void Update()
