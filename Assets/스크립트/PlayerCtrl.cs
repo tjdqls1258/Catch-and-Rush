@@ -131,18 +131,24 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             stream.SendNext(tr.position);
             stream.SendNext(tr.rotation);
             stream.SendNext(name);
+            stream.SendNext(team);
         }
         else
         {
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
             SetPlayerName((string)stream.ReceiveNext());
+            SetPlayertema((string)stream.ReceiveNext());
         }
     }
     public void SetPlayerName(string name)
     {
         this.name = name;
         GetComponent<PlayerCtrl>().playerName.text = this.name;
+    }
+    public void SetPlayertema(string team)
+    {
+        this.team = team;
     }
 
     public void SetPlayerTeam(string team)
