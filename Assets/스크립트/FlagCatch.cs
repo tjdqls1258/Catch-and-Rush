@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class FlagCatch : MonoBehaviourPun
+public class FlagCatch : MonoBehaviourPun, IPunObservable
 {
     public bool Iscatched = false;
     public GameObject Flag;
@@ -75,14 +75,23 @@ public class FlagCatch : MonoBehaviourPun
     [PunRPC]
     void RPC_Drop_Flag()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            FollowPlayer_Name = null;
-            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
-        }
+        FollowPlayer_Name = null;
+        photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer_Name);
         Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<Rigidbody>().useGravity = true;
         Flag.GetComponent<CapsuleCollider>().enabled = true;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(FollowPlayer_Name);
+        }
+        else
+        {
+            this.FollowPlayer_Name = (string)stream.ReceiveNext();
+        }
     }
 }
