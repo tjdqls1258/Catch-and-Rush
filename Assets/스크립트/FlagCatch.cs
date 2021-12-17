@@ -45,11 +45,6 @@ public class FlagCatch : MonoBehaviourPun
                 Flag.GetComponent<CapsuleCollider>().enabled = true;
             }
         }
-        else
-        {
-            RPC_Drop_Flag();
-            PV.RPC("RPC_Drop_Flag", RpcTarget.Others);
-        }
     }
 
     [PunRPC]
@@ -58,17 +53,28 @@ public class FlagCatch : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             FollowPlayer = target;
-            Iscatched = true;
-            Flag.GetComponent<CapsuleCollider>().enabled = false;
-            Flag.GetComponent<FollowFlag>().enabled = true;
-            Flag.GetComponent<Rigidbody>().useGravity = false;
+            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer);
         }
+        Iscatched = true;
+        Flag.GetComponent<CapsuleCollider>().enabled = false;
+        Flag.GetComponent<FollowFlag>().enabled = true;
+        Flag.GetComponent<Rigidbody>().useGravity = false;
+
+    }
+    [PunRpc]
+    public void Rpc_Set_Target(Transform target)
+    {
+        FollowPlayer = target;
     }
 
     [PunRPC]
     public void RPC_Drop_Flag()
     {
-        FollowPlayer = null;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FollowPlayer = null;
+            photonView.RPC("Rpc_Set_Target", RpcTarget.Others, FollowPlayer);
+        }
         Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<FlagCatch>().Iscatched = false;
