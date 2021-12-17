@@ -32,6 +32,14 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
             Debug.Log("플레이어 충돌");
         }
     }
+    private void OnTriggerStay(Collider coll)
+    {
+        if (coll.gameObject.tag == "DAED_ZONE")
+        {
+            RPC_Drop_Flag();
+            tr.position = new Vector3(70.0f, 5.0f, 40.0f);
+        }
+    }
     private void OnCollisionStay(Collision coll)
     {
         if (coll.gameObject.tag == "DAED_ZONE")
