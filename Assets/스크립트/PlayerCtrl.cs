@@ -77,7 +77,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         animator = GetComponent<Animator>();
         PV = GetComponent<PhotonView>();
         flag = GameObject.FindGameObjectWithTag("flag");
-        GameObject.Find("Time_System").GetComponent<Time_System_cs>().SetPlayer(this.gameObject);
 
         PV.ObservedComponents[0] = this;
 

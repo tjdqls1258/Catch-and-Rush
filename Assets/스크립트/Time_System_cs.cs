@@ -17,7 +17,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     //승리 팀 저장할 string
     string Winner = "";
     [SerializeField]
-    private GameObject player;
+    private GameObject[] player;
     private GameObject blue_team;
     private GameObject red_team;
 
@@ -78,11 +78,15 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
             texts.Winnerteam.text = Winner;
         }
 
-        if ((time <= 60) && (time >= 0) && (piver==false) && (player))
+        if ((time <= 60) && (time >= 0) && (piver==false))
         {
+            player = GameObject.FindGameObjectsWithTag("Player");
             piver = true;
-            //플레이 이속 2배
-            player.GetComponent<PlayerCtrl>().Basic_speed *= 2.0f;
+            for (int i = 0; i < player.Length; i++)
+            {
+                //플레이 이속 2배
+                player[i].GetComponent<PlayerCtrl>().Basic_speed *= 2.0f;
+            }
             //깃발 점수 2배
             GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
             GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
@@ -127,10 +131,5 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     {
          texts.Time_min.text = Min.ToString();
          texts.Time_sec.text = Sec.ToString();
-    }
-
-    public void SetPlayer(GameObject Player)
-    {
-        player = Player;
     }
 }
