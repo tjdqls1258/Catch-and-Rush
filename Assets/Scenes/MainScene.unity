@@ -17759,6 +17759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1213549574}
   - component: {fileID: 1213549575}
+  - component: {fileID: 1213549576}
   m_Layer: 0
   m_Name: Time_System
   m_TagString: Untagged
@@ -17792,10 +17793,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d786a55080705954e9b0d732f7612f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  start_Time: 80
   player: {fileID: 0}
   Play_UI: {fileID: 100082299}
   End_UI: {fileID: 729707001}
   texts: {fileID: 695736055}
+--- !u!114 &1213549576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213549573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1213549575}
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1217711258
 PrefabInstance:
   m_ObjectHideFlags: 0

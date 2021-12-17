@@ -607,6 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e4c29249a6a2f438aeac2dfdd14a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Basic_speed: 10
   speed: 10
   rotSpeed: 100
   playerName: {fileID: 1589711868160786937}

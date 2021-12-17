@@ -16,22 +16,23 @@ public class FlagCatch : MonoBehaviourPun
     private Quaternion currRot;
 
     private PhotonView PV;
-
+    
     private void Start()
     {
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
     }
-
-    private void OnCollisionEnter(Collision coll)
+    private void OnTriggerEnter(Collider coll)
     {
-        if (coll.gameObject.tag == "Player")
+        if ((coll.gameObject.tag == "Player") && (!Iscatched))
         {
-            FollowPlayer = coll.gameObject;
             RPC_Get_Flag();
+            FollowPlayer = coll.gameObject;
             PV.RPC("RPC_Get_Flag", RpcTarget.Others);
+            Debug.Log("플레이어 충돌");
         }
     }
+
     private void Update()
     {
         if (FollowPlayer)
@@ -63,6 +64,7 @@ public class FlagCatch : MonoBehaviourPun
     [PunRPC]
     public void RPC_Drop_Flag()
     {
+        Iscatched = false;
         Flag.GetComponent<FollowFlag>().enabled = false;
         Flag.GetComponent<FlagCatch>().Iscatched = false;
         Flag.GetComponent<Rigidbody>().useGravity = true;

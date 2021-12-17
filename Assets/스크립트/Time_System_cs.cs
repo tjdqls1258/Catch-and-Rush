@@ -11,7 +11,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     float Sec;
     float time;
     //초기 시간 값
-    float start_Time = 20;
+    public float start_Time = 20;
     //피버인지 확인하기 위한 변수
     bool piver = false;
     //승리 팀 저장할 string
@@ -47,8 +47,6 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         if (time >= 0)
         {
             AddTimer(-Time.deltaTime);
-            texts.Time_min.text = Min.ToString();
-            texts.Time_sec.text = Sec.ToString();
         }
         else //시간이 0이하로 즉, 게임 끝
         {
@@ -90,7 +88,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
             GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Plus_Score = 2;
         }
     }
-
+    
     public int get_Time()
     {
         return ((int)time);

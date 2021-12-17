@@ -188,9 +188,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             {
                 get_flag = false;
                 Join_GOAL();
-                PV.RPC("Join_GOAL", RpcTarget.Others);
-                Debug.Log("∑πµÂ∆¿ µÊ¡°");
-                
+                PV.RPC("Join_GOAL", RpcTarget.Others);                
             }
         }
         if (coll.gameObject.tag == "GOAL_BLUE")
@@ -200,8 +198,13 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 get_flag = false;
                 Join_GOAL();
                 PV.RPC("Join_GOAL", RpcTarget.Others);
-                Debug.Log("∫Ì∑Á∆¿ µÊ¡°");
             }
+        }
+        if (coll.gameObject.tag == "flag")
+        {
+            get_flag = true;
+            flag = coll.gameObject;
+            Debug.Log("±Íπﬂ »πµÊ");
         }
     }
 
@@ -212,18 +215,14 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     }
     private void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.tag == "flag")
-        {
-            get_flag = true;
-            flag = coll.gameObject;
-        }
-        else if (coll.gameObject.tag == "DAED_ZONE")
+        if (coll.gameObject.tag == "DAED_ZONE")
         {
             //tr = team_Spawner.transform;
             tr.position = new Vector3(100.0f, 5.0f, 40.0f);
 
             if (get_flag)
             {
+                flag.GetComponent<FlagCatch>().FollowPlayer = null;
                 flag.GetComponent<FlagCatch>().Iscatched = false;
                 flag.GetComponent<FollowFlag>().enabled = false;
                 flag.transform.position = new Vector3(70.0f, 5.0f, 40.0f);
@@ -231,21 +230,6 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 flag.GetComponent<Rigidbody>().useGravity = true;
             }
         }
-    }
-
-    IEnumerator RespawnPlayer(float waitTime)
-    {
-        Debug.Log("Died");
-        isDie = true;
-        StartCoroutine(PlayerVisible(false, 0.0f));
-        yield return new WaitForSeconds(waitTime);
-
-        tr.position = new Vector3(Random.Range(-20.0f, 20.0f), 0f, Random.Range(-20.0f, 20.0f));
-
-        hp = 100;
-        isDie = false;
-        animator.SetTrigger("Reset");
-        StartCoroutine(PlayerVisible(true, 1.0f));
     }
 
     IEnumerator PlayerVisible(bool visibled, float delayTime)
