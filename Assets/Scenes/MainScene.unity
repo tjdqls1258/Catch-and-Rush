@@ -7753,6 +7753,7 @@ MonoBehaviour:
   flag: {fileID: 1202102037904712260}
   texts: {fileID: 0}
   Team_Score: 0
+  Plus_Score: 1
 --- !u!65 &475015074
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15207,6 +15208,7 @@ MonoBehaviour:
   flag: {fileID: 1202102037904712260}
   texts: {fileID: 0}
   Team_Score: 0
+  Plus_Score: 1
 --- !u!65 &1059632919
 BoxCollider:
   m_ObjectHideFlags: 0
