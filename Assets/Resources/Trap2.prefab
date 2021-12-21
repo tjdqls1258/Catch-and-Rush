@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3186887717468880577}
   - component: {fileID: 3176161546528285191}
   - component: {fileID: 5700756318771466503}
+  - component: {fileID: -303781649692485311}
   m_Layer: 0
   m_Name: Trap2
   m_TagString: Untagged
@@ -96,3 +97,15 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &-303781649692485311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189789787463633837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec33a113a49b7dd44a027b1f83983c0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

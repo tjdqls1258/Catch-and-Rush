@@ -35,21 +35,24 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     private bool isDie = false;
     private int hp = 100;
-    private float respwnTime = 3.0f;
+    private float respwnTime = 3.0f;    
     private Vector3 Knockback_pos;
-
+    
     public bool get_flag = false;
     //플레이어가 떨어졌을 떄 되돌아가는 지점
     //아직 게임 시작할 때 정해진 팀에 해당 팀 스포너를 넣는 코드는 만들지 않음.
 
 
-
+    public float fireRange = 50;
+    public float BulletSpeed = 10;
     public float fire_delay=0.5f;
     bool shoot_Fire = true;
     IEnumerator CreateBullet()
     {
         Instantiate(bullet, firePos.position, firePos.rotation);
         bullet.GetComponent<Bullet>().team = team;
+        bullet.GetComponent<Bullet>().fireRange = this.fireRange;
+        bullet.GetComponent<Bullet>().speed = BulletSpeed;
         yield return null;
     }
 
@@ -82,6 +85,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         flag = GameObject.FindGameObjectWithTag("flag");
         Timer = GameObject.Find("Time_System");
         PV.ObservedComponents[0] = this;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         if (PV.IsMine)
         {

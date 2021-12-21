@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+using Photon.Pun;
+using Photon.Realtime;
 public class Item_SpeedUp : MonoBehaviour, IItem_use
 {
     private float player_speed;
@@ -26,6 +29,15 @@ public class Item_SpeedUp : MonoBehaviour, IItem_use
     public void Item_use(GameObject player)
     {
         StartCoroutine(SpeedUp(player));
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        this.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        StartCoroutine(Active_On());
+    }
+    IEnumerator Active_On()
+    {
+        yield return new WaitForSeconds(20.0f);
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        this.gameObject.GetComponent<CapsuleCollider>().enabled = true;
     }
 
     IEnumerator SpeedUp(GameObject player)

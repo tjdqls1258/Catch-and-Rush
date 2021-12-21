@@ -5,11 +5,11 @@ using UnityEngine;
 public class Item_RangeUp : MonoBehaviour, IItem_use
 {
     public GameObject bullet;
-
+    float fireRange_Up;
+    float BulletSpeed_Up;
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -26,13 +26,25 @@ public class Item_RangeUp : MonoBehaviour, IItem_use
     public void Item_use(GameObject player)
     {
         StartCoroutine(RangeUp(player));
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        this.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        StartCoroutine(Active_On());
+    }
+
+    IEnumerator Active_On()
+    {
+        yield return new WaitForSeconds(20.0f);
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        this.gameObject.GetComponent<CapsuleCollider>().enabled = true;
     }
 
     IEnumerator RangeUp(GameObject player)
     {
-        bullet.GetComponent<Bullet>().fireRange *= 2;
+        player.GetComponent<PlayerCtrl>().fireRange *= 2;
+        player.GetComponent<PlayerCtrl>().BulletSpeed *= 1.2f;
         yield return new WaitForSeconds(3.0f);
 
-        bullet.GetComponent<Bullet>().fireRange /= 2;
+        player.GetComponent<PlayerCtrl>().fireRange /= 2;
+        player.GetComponent<PlayerCtrl>().BulletSpeed /= 1.2f;
     }
 }

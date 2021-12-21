@@ -71,6 +71,8 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         }
         else if(start_Game)//시간이 0이하로 즉, 게임 끝
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             start_Game = false;
             //어느쪽의 점수가 높은지 점수판별 후 높은쪽의 팀을 string에 추가
             if (blue_team.GetComponent<Score_System>().Team_Score >
