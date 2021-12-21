@@ -27,8 +27,9 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
 
     public GameObject Play_UI;
     public GameObject End_UI;
+    public GameObject Selete_Team_Planer;
+    public GameObject InGameUIs;
 
-    public Button Back_To_Lobby;
     public Button Exit_Game;
 
     public UI_IN_Game texts;
@@ -44,7 +45,6 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         red_team = GameObject.FindGameObjectWithTag("GOAL_RED");
         PV = GetComponent<PhotonView>();
 
-        Back_To_Lobby.onClick.AddListener(Back_Lobby_Event);
         Exit_Game.onClick.AddListener(Exit_Game_Event);
     }
 
@@ -59,10 +59,6 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         start_Game = true;
     }
 
-    public void Back_Lobby_Event()
-    {
-        
-    }
     // Update is called once per frame
     void Update()
     {
@@ -100,6 +96,13 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
             End_UI.SetActive(true);
 
             texts.Winnerteam.text = Winner;
+            player = GameObject.FindGameObjectsWithTag("Player");
+            piver = true;
+            for (int i = 0; i < player.Length; i++)
+            {
+                //플레이 이속 2배
+                Destroy(player[i]);
+            }
         }
 
         if ((time <= 60) && (time >= 0) && (piver==false))
@@ -155,5 +158,25 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     {
          texts.Time_min.text = Min.ToString();
          texts.Time_sec.text = Sec.ToString();
+    }
+
+    public void Game_StartEvents()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("Game_StartEvent", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    public void Game_StartEvent()
+    {
+        GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
+        GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
+        time = 2;
+        Selete_Team_Planer.SetActive(false);
+        InGameUIs.SetActive(true);
+        GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 1;
+        start_Game = true;
     }
 }

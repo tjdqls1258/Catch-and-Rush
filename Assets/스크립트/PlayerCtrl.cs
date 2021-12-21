@@ -114,6 +114,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 animator.SetTrigger("Attack");
                 Fire();
             }
+            if (Timer.GetComponent<Time_System_cs>().time <= 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
         else if (!PV.IsMine && isDie == false)
         {
@@ -127,11 +131,12 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             }
             tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10);
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10);
+            if (Timer.GetComponent<Time_System_cs>().time <= 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
-        if(Timer.GetComponent<Time_System_cs>().time <= 0)
-        {
-            Destroy(this);
-        }
+        
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

@@ -527,14 +527,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("game_Start", RpcTarget.All);
-            photonView.RPC("SetAtiveFalseThis", RpcTarget.All);
         }
-    }
-    [PunRPC]
-    void SetAtiveFalseThis()
-    {
-        GameObject.Find("InGame_UI").transform.Find("∆¿º±≈√").gameObject.SetActive(false);
-
     }
     [PunRPC]
     void DisConnect_waitName()

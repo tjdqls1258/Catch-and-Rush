@@ -65,6 +65,7 @@ MonoBehaviour:
   - Back_Room
   - game_Start
   - SetAtiveFalseThis
+  - Game_StartEvent
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
