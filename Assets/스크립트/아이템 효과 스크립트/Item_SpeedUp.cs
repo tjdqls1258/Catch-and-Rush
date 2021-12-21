@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Item_SpeedUp : MonoBehaviour, IItem_use
 {
-    private GameObject Player;
-
     private float player_speed;
 
     // Start is called before the first frame update

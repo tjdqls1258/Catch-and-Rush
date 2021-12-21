@@ -15,7 +15,12 @@ public class Item_RangeUp : MonoBehaviour, IItem_use
     // Update is called once per frame
     void Update()
     {
-        
+        this.transform.Rotate(new Vector3(0.0f, 50.0f * Time.deltaTime, 0.0f));
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Item_use(other.gameObject);
     }
 
     public void Item_use(GameObject player)
