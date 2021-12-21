@@ -63,6 +63,8 @@ MonoBehaviour:
   - Set_Target
   - Rpc_Set_Target
   - Back_Room
+  - game_Start
+  - SetAtiveFalseThis
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

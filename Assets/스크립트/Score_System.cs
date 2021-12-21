@@ -24,6 +24,11 @@ public class Score_System : MonoBehaviourPun
         texts.Blue_Score.text = Team_Score.ToString();
         texts.Red_Score.text = Team_Score.ToString();
     }
+    public void Reset_Score()
+    {
+        Team_Score = 0;
+        Plus_Score = 1;
+    }
 
     private void OnTriggerEnter(Collider coll)
     {

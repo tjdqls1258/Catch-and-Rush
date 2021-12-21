@@ -51,10 +51,10 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     public int hashtablecount;
 
     //팀 텍스트
-    [SerializeField] public Text Playe_1;
-    [SerializeField] public Text Playe_2;
-    [SerializeField] public Text Playe_3;
-    [SerializeField] public Text Playe_4;
+    [SerializeField] public GameObject Playe_1;
+    [SerializeField] public GameObject Playe_2;
+    [SerializeField] public GameObject Playe_3;
+    [SerializeField] public GameObject Playe_4;
 
     //여러개의 방 리스트를 관리하는 변수
     List<RoomInfo> myList = new List<RoomInfo>();
@@ -89,41 +89,27 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         if ((PlayerPrefs.GetInt("LogIn") == 1) && (isLoggIn == false))
         {
             isLoggIn = true;
-            if (PhotonNetwork.IsConnected)
-            {
-                this.playerName = PlayerPrefs.GetString("PlayerName");
-                connectionState = "룸에 접속 중 ...";
-                if (connectionInfoText)
-                {
-                    connectionInfoText.text = connectionState;
-                }
-                LobbyPanel.SetActive(false);
-                RoomPanel.SetActive(true);
-                WaitRoom.SetActive(true);
-                StartCoroutine(Set_waitName(PlayerPrefs.GetString("PlayerName")));
-            }
-            if (isGameStart == true)
-            {
-                isGameStart = false;
-                LobbyPanel.SetActive(false);
-                WaitRoom.SetActive(true);
-                StartCoroutine(Set_waitName(playerName));
-            }
         } 
         if ((isGameStart == false) && (SceneManager.GetActiveScene().name == "MainScene") && (isLoggIn == true))
         {
             isGameStart = true;
-            StartCoroutine(CreatPlayer());
+            Playe_1 = GameObject.Find("1P_name").gameObject;
+            Debug.Log(Playe_1.name);
+            Playe_2 = GameObject.Find("2P_name").gameObject;
+            Playe_3 = GameObject.Find("3P_name").gameObject;
+            Playe_4 = GameObject.Find("4P_name").gameObject;
+
+            GameObject.Find("게임시작_Btn").GetComponent<Button>().onClick.AddListener(Start_Game);
+            GameObject.Find("팀변경_Btn").GetComponent<Button>().onClick.AddListener(Change_Team);
+            PlayerPrefs.SetInt("Num", 0);
+            StartCoroutine(Set_waitName(PlayerPrefs.GetString("PlayerName")));
         }
     }
-
-    //public override void OnJoinedLobby()
-    //{
-    //    base.OnJoinedLobby();
-    //    Debug.Log("로비 입장");
-    //    PhotonNetwork.JoinRandomRoom();
-    //}
-
+    [PunRPC]
+    public void game_Start()
+    {
+        StartCoroutine(CreatPlayer());
+    }
     public static LobbyInit Instance
     {
         get
@@ -202,10 +188,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         PlayerPrefs.SetInt("LogIn", 1);
 
         //SceneManager.LoadScene("SampleScene");
-        //PhotonNetwork.LoadLevel("MainScene");
-        WaitRoom.SetActive(true);
-        PlayerPrefs.SetInt("Num", 0);
-        StartCoroutine(Set_waitName(PlayerPrefs.GetString("PlayerName")));
+        PhotonNetwork.LoadLevel("MainScene");
     }
 
     IEnumerator CreatPlayer()
@@ -267,7 +250,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : RoomInput.text,
             new RoomOptions { MaxPlayers = 4 });
         LobbyPanel.SetActive(false);
-        WaitRoom.SetActive(true);
     }
 
     public void Disconnect()
@@ -306,9 +288,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Game" + Random.Range(0, 100) : RoomInput.text,
                 new RoomOptions { MaxPlayers = 4 });
         }
-
-        MakeRoomPanel.SetActive(false);
-        WaitRoom.SetActive(true);
     }
 
     public void MyListClick(int num)
@@ -547,38 +526,40 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("InMain", RpcTarget.All);
+            photonView.RPC("game_Start", RpcTarget.All);
+            photonView.RPC("SetAtiveFalseThis", RpcTarget.All);
         }
     }
     [PunRPC]
-    void InMain()
+    void SetAtiveFalseThis()
     {
-        PhotonNetwork.LoadLevel("MainScene");
+        GameObject.Find("InGame_UI").transform.Find("팀선택").gameObject.SetActive(false);
+
     }
     [PunRPC]
     void DisConnect_waitName()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            if (Playe_1.text == playerName)
+            if (Playe_1.GetComponent<Text>().text == playerName)
             {
-                Playe_1.text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_1.text);
+                Playe_1.GetComponent<Text>().text = "비어있음";
+                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_1.GetComponent<Text>().text);
             }
-            else if (Playe_2.text == playerName)
+            else if (Playe_2.GetComponent<Text>().text == playerName)
             {
-                Playe_2.text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_2.text);
+                Playe_2.GetComponent<Text>().text = "비어있음";
+                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_2.GetComponent<Text>().text);
             }
-            else if (Playe_3.text == playerName)
+            else if (Playe_3.GetComponent<Text>().text == playerName)
             {
-                Playe_3.text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_3.text);
+                Playe_3.GetComponent<Text>().text = "비어있음";
+                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_3.GetComponent<Text>().text);
             }
-            else if (Playe_4.text == playerName)
+            else if (Playe_4.GetComponent<Text>().text == playerName)
             {
-                Playe_4.text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_4.text);
+                Playe_4.GetComponent<Text>().text = "비어있음";
+                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_4.GetComponent<Text>().text);
             }
         }
     }

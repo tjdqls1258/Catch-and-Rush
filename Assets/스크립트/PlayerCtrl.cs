@@ -31,6 +31,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     public GameObject bullet;
     public GameObject flag;
+    public GameObject Timer;
 
     private bool isDie = false;
     private int hp = 100;
@@ -79,7 +80,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
         animator = GetComponent<Animator>();
         PV = GetComponent<PhotonView>();
         flag = GameObject.FindGameObjectWithTag("flag");
-
+        Timer = GameObject.Find("Time_System");
         PV.ObservedComponents[0] = this;
 
         if (PV.IsMine)
@@ -126,6 +127,10 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             }
             tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10);
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10);
+        }
+        if(Timer.GetComponent<Time_System_cs>().time <= 0)
+        {
+            Destroy(this);
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -11,11 +11,13 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
 {   //시간
     float Min;
     float Sec;
-    float time;
+    public float time;
     //초기 시간 값
     public float start_Time = 20;
     //피버인지 확인하기 위한 변수
     bool piver = false;
+    public bool start_Game = false;
+
     //승리 팀 저장할 string
     string Winner = "";
     [SerializeField]
@@ -51,10 +53,15 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         Application.Quit();
     }
 
+    public void Reset_Time(float startTime)
+    {
+        time = startTime;
+        start_Game = true;
+    }
+
     public void Back_Lobby_Event()
     {
-        Destroy(GameObject.Find("PhotonManager"));
-        PhotonNetwork.LoadLevel("StartScene");
+        
     }
     // Update is called once per frame
     void Update()
@@ -62,14 +69,13 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         Min = Mathf.Floor(time / 60);
         Sec = Mathf.Floor(time % 60);
         //타임이 0이 될 때 까지 시간 감소
-        if (time >= 0)
+        if (time >= 0 && start_Game)
         {
             AddTimer(-Time.deltaTime);
         }
-        else //시간이 0이하로 즉, 게임 끝
+        else if(start_Game)//시간이 0이하로 즉, 게임 끝
         {
-            time = 0;
-
+            start_Game = false;
             //어느쪽의 점수가 높은지 점수판별 후 높은쪽의 팀을 string에 추가
             if (blue_team.GetComponent<Score_System>().Team_Score >
                 red_team.GetComponent<Score_System>().Team_Score)
