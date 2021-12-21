@@ -13,7 +13,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     float Sec;
     public float time;
     //초기 시간 값
-    public float start_Time = 20;
+    public float start_Time;
     //피버인지 확인하기 위한 변수
     bool piver = false;
     public bool start_Game = false;
@@ -173,7 +173,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     {
         GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
         GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
-        time = 2;
+        time = 180;
         Selete_Team_Planer.SetActive(false);
         InGameUIs.SetActive(true);
         GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 1;

@@ -18,12 +18,12 @@ public class Item_RangeUp : MonoBehaviour, IItem_use
         
     }
 
-    public void Item_use()
+    public void Item_use(GameObject player)
     {
-        StartCoroutine(RangeUp());
+        StartCoroutine(RangeUp(player));
     }
 
-    IEnumerator RangeUp()
+    IEnumerator RangeUp(GameObject player)
     {
         bullet.GetComponent<Bullet>().fireRange *= 2;
         yield return new WaitForSeconds(3.0f);

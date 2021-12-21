@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IItem_use
 {
-    public void Item_use();
+    public void Item_use(GameObject player);
 }
