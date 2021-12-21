@@ -9,7 +9,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyInit : MonoBehaviourPunCallbacks
 {
-    //싱글턴 패턴을 적용
     public static LobbyInit instance;
 
     public InputField PlayerInput;
@@ -17,7 +16,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     bool isGameStart = false;
     bool isLoggIn = false;
     bool isReady = false;
-    string playerName = "";
+    public string playerName = "";
     string playerTeam = "";
     string connectionState = "";
 
@@ -25,7 +24,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     Text connectionInfoText;
 
-    [Header("LobbyCanvas")] public GameObject LobbyCanvas; //canvas
+    [Header("LobbyCanvas")]
+    public GameObject LobbyCanvas; //canvas
     public GameObject LobbyPanel; //login
     public GameObject RoomPanel; // lobby
     public GameObject WaitRoom; // 대기방
@@ -59,6 +59,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     //여러개의 방 리스트를 관리하는 변수
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, mutiple, roomnuber;
+
     void Awake()
     {
         PhotonNetwork.GameVersion = "MyFps 1.0";
@@ -75,7 +76,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         {
             connectionInfoText.text = connectionState;
         }
-
         DontDestroyOnLoad(gameObject);
     }
 
@@ -86,10 +86,30 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if ((PlayerPrefs.GetInt("LogIn") == 1))
+        if ((PlayerPrefs.GetInt("LogIn") == 1) && (isLoggIn == false))
         {
             isLoggIn = true;
-        }
+            if (PhotonNetwork.IsConnected)
+            {
+                this.playerName = PlayerPrefs.GetString("PlayerName");
+                connectionState = "룸에 접속 중 ...";
+                if (connectionInfoText)
+                {
+                    connectionInfoText.text = connectionState;
+                }
+                LobbyPanel.SetActive(false);
+                RoomPanel.SetActive(true);
+                WaitRoom.SetActive(true);
+                StartCoroutine(Set_waitName(PlayerPrefs.GetString("PlayerName")));
+            }
+            if (isGameStart == true)
+            {
+                isGameStart = false;
+                LobbyPanel.SetActive(false);
+                WaitRoom.SetActive(true);
+                StartCoroutine(Set_waitName(playerName));
+            }
+        } 
         if ((isGameStart == false) && (SceneManager.GetActiveScene().name == "MainScene") && (isLoggIn == true))
         {
             isGameStart = true;
@@ -184,7 +204,8 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         //SceneManager.LoadScene("SampleScene");
         //PhotonNetwork.LoadLevel("MainScene");
         WaitRoom.SetActive(true);
-        StartCoroutine(Set_waitName(playerName));
+        PlayerPrefs.SetInt("Num", 0);
+        StartCoroutine(Set_waitName(PlayerPrefs.GetString("PlayerName")));
     }
 
     IEnumerator CreatPlayer()
@@ -424,29 +445,37 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     IEnumerator Set_waitName(string name)
     {
         yield return null;
-        if (Playe_1.GetComponent<Change_Text>().setText(name))
+        if (Playe_1.GetComponent<Change_Text>().setText(name) && 
+            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 1)))
         {
             Playe_1.GetComponent<Change_Text>().Set_Team(true);
             playerTeam = "Red";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
+            PlayerPrefs.SetInt("Num", 1);
         }
-        else if (Playe_2.GetComponent<Change_Text>().setText(name))
+        else if (Playe_2.GetComponent<Change_Text>().setText(name) &&
+            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 2)))
         {
             Playe_2.GetComponent<Change_Text>().Set_Team(true);
             playerTeam = "Red";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
+            PlayerPrefs.SetInt("Num", 2);
         }
-        else if (Playe_3.GetComponent<Change_Text>().setText(name))
+        else if (Playe_3.GetComponent<Change_Text>().setText(name) &&
+            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 3)))
         {
             Playe_3.GetComponent<Change_Text>().Set_Team(false);
             playerTeam = "Blue";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
+            PlayerPrefs.SetInt("Num", 3);
         }
-        else if (Playe_4.GetComponent<Change_Text>().setText(name))
+        else if (Playe_4.GetComponent<Change_Text>().setText(name) &&
+            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 4)))
         {
             Playe_4.GetComponent<Change_Text>().Set_Team(false);
             playerTeam = "Blue";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
+            PlayerPrefs.SetInt("Num", 4);
         }
     }
 

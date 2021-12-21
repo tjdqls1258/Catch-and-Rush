@@ -19,11 +19,12 @@ public class Change_Text : MonoBehaviourPun, IPunObservable
     }
     public bool setText(string text)
     {
+        Debug.Log("방에 누구있나요 ? : "+self.text);
         if (self.text == "비어있음")
         {
-            Debug.Log(self.text);
             self.text = text;
             pv.RPC("RPC_setText", RpcTarget.AllBuffered, text, true);
+            pv.RPC("RPC_setText", RpcTarget.All, text, true);
             return true;
         }
         return false;
@@ -34,11 +35,13 @@ public class Change_Text : MonoBehaviourPun, IPunObservable
         {
             RPC_Set_Team_Color(Team);
             pv.RPC("RPC_Set_Team_Color", RpcTarget.AllBuffered, Team);
+            pv.RPC("RPC_Set_Team_Color", RpcTarget.All, Team);
         }
         else
         {
             RPC_Set_Team_Color(Team);
             pv.RPC("RPC_Set_Team_Color", RpcTarget.AllBuffered, Team);
+            pv.RPC("RPC_Set_Team_Color", RpcTarget.All, Team);
         }
     }
 

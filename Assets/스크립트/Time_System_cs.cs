@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -24,6 +26,9 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     public GameObject Play_UI;
     public GameObject End_UI;
 
+    public Button Back_To_Lobby;
+    public Button Exit_Game;
+
     public UI_IN_Game texts;
 
     private PhotonView PV;
@@ -36,8 +41,21 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         blue_team = GameObject.FindGameObjectWithTag("GOAL_BLUE");
         red_team = GameObject.FindGameObjectWithTag("GOAL_RED");
         PV = GetComponent<PhotonView>();
+
+        Back_To_Lobby.onClick.AddListener(Back_Lobby_Event);
+        Exit_Game.onClick.AddListener(Exit_Game_Event);
     }
 
+    public void Exit_Game_Event()
+    {
+        Application.Quit();
+    }
+
+    public void Back_Lobby_Event()
+    {
+        Destroy(GameObject.Find("PhotonManager"));
+        PhotonNetwork.LoadLevel("StartScene");
+    }
     // Update is called once per frame
     void Update()
     {

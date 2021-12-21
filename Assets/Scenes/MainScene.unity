@@ -17823,11 +17823,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d786a55080705954e9b0d732f7612f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start_Time: 80
+  start_Time: 1
   player:
   - {fileID: 0}
   Play_UI: {fileID: 100082299}
   End_UI: {fileID: 729707001}
+  Back_To_Lobby: {fileID: 1277388317}
+  Exit_Game: {fileID: 880438056}
   texts: {fileID: 695736055}
 --- !u!114 &1213549576
 MonoBehaviour:
