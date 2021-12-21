@@ -3696,6 +3696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 410422264}
   chattingBtn: {fileID: 36714273}
+  playerName: 
   LobbyCanvas: {fileID: 37287796}
   LobbyPanel: {fileID: 1742585133}
   RoomPanel: {fileID: 102007358}
