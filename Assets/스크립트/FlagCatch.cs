@@ -78,7 +78,11 @@ public class FlagCatch : MonoBehaviourPun, IPunObservable
     {
         RPC_Drop_Flag();
     }
-
+    public void Reset_Flage()
+    {
+        Drop_Flag();
+        tr.position = new Vector3(70.0f, 5.0f, 40.0f);
+    }
     [PunRPC]
     void RPC_Drop_Flag()
     {
