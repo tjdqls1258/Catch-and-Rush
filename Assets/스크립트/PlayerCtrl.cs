@@ -48,7 +48,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     public float fire_delay=0.5f;
 
     public float base_fireRange = 50;
-    public float base_BulletSpeed = 10;
+    public float base_BulletSpeed = 50;
     public float base_fire_delay = 0.5f;
 
     bool shoot_Fire = true;

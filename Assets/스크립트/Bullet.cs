@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public string team = "";
-    public float speed = 10;
+    public float speed = 50;
     public float fireRange = 50;
 
     private Transform tr;
