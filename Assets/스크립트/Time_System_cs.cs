@@ -34,8 +34,6 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
 
     public UI_IN_Game texts;
 
-    private PhotonView PV;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +41,6 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         texts = GameObject.Find("InGame_UI").GetComponent<UI_IN_Game>();
         blue_team = GameObject.FindGameObjectWithTag("GOAL_BLUE");
         red_team = GameObject.FindGameObjectWithTag("GOAL_RED");
-        PV = GetComponent<PhotonView>();
 
         Exit_Game.onClick.AddListener(Exit_Game_Event);
     }

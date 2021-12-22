@@ -62,7 +62,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        PhotonNetwork.GameVersion = "MyFps 1.0";
+        PhotonNetwork.GameVersion = "캐치엔 러쉬 1.0";
         PhotonNetwork.ConnectUsingSettings();
         pv = GetComponent<PhotonView>();
         if (GameObject.Find("ConnectionInfoText") != null)
@@ -128,7 +128,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnected && isReady)
         {
             connectionState = "룸에 접속 중 ...";
             if (connectionInfoText)
@@ -174,6 +174,11 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         Debug.Log("방 생성 완료");
     }
 
+    public override void OnConnectedToMaster()
+    {
+        isReady = true;
+    }
+
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -186,7 +191,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         isLoggIn = true;
         PlayerPrefs.SetInt("LogIn", 1);
 
-        //SceneManager.LoadScene("SampleScene");
         PhotonNetwork.LoadLevel("MainScene");
     }
 
@@ -217,10 +221,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerTeam(PlayerPrefs.GetString("Team_prefs"));
 
         yield return null;
-    }
-    private void OnGUI()
-    {
-        GUILayout.Label(connectionState);
     }
 
     public void SetPlayerName()
@@ -527,31 +527,5 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             photonView.RPC("game_Start", RpcTarget.All);
         }
     }
-    [PunRPC]
-    void DisConnect_waitName()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            if (Playe_1.GetComponent<Text>().text == playerName)
-            {
-                Playe_1.GetComponent<Text>().text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_1.GetComponent<Text>().text);
-            }
-            else if (Playe_2.GetComponent<Text>().text == playerName)
-            {
-                Playe_2.GetComponent<Text>().text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_2.GetComponent<Text>().text);
-            }
-            else if (Playe_3.GetComponent<Text>().text == playerName)
-            {
-                Playe_3.GetComponent<Text>().text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_3.GetComponent<Text>().text);
-            }
-            else if (Playe_4.GetComponent<Text>().text == playerName)
-            {
-                Playe_4.GetComponent<Text>().text = "비어있음";
-                photonView.RPC("DisConnect_waitName", RpcTarget.Others, Playe_4.GetComponent<Text>().text);
-            }
-        }
-    }
+
 }

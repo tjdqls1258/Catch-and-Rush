@@ -7,12 +7,7 @@ public class Item_RangeUp : MonoBehaviour
     public GameObject bullet;
     float fireRange_Up;
     float BulletSpeed_Up;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
     void Update()
     {
         this.transform.Rotate(new Vector3(0.0f, 50.0f * Time.deltaTime, 0.0f));

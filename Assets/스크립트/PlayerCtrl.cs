@@ -33,18 +33,12 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
     public GameObject flag;
     public GameObject Timer;
 
-    private bool isDie = false;
-    private int hp = 100;
-    private float respwnTime = 3.0f;    
     private Vector3 Knockback_pos;
     
     public bool get_flag = false;
-    //플레이어가 떨어졌을 떄 되돌아가는 지점
-    //아직 게임 시작할 때 정해진 팀에 해당 팀 스포너를 넣는 코드는 만들지 않음.
-
 
     public float fireRange = 50;
-    public float BulletSpeed = 200;
+    public float BulletSpeed = 50;
     public float fire_delay=0.5f;
 
     public float base_fireRange = 50;
@@ -102,7 +96,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (PV.IsMine && isDie == false)
+        if (PV.IsMine)
         {
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
@@ -130,7 +124,7 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
                 Destroy(this.gameObject);
             }
         }
-        else if (!PV.IsMine && isDie == false)
+        else if (!PV.IsMine)
         {
             if (tr.position != currPos)
             {
@@ -248,18 +242,9 @@ public class PlayerCtrl : MonoBehaviourPun, IPunObservable
             if (get_flag)
             {
                 get_flag = false;
-                Join_GOAL();
-                PV.RPC("Join_GOAL", RpcTarget.Others);
-                flag.GetComponent<FlagCatch>().Drop_Flag();
             }
             tr.position = team_Spawner.position;
         }
-    }
-
-    IEnumerator PlayerVisible(bool visibled, float delayTime)
-    {
-        yield return new WaitForSeconds(delayTime);
-        GetComponent<MeshRenderer>().enabled = visibled;
     }
 
     private void OnTriggerStay(Collider coll)

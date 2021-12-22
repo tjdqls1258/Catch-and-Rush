@@ -9,13 +9,6 @@ public class Item_SpeedUp : MonoBehaviour
 {
     private float player_speed;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //Player = GameObject.FindGameObjectWithTag("Player");
-    }
-
-    // Update is called once per frame
     void Update()
     {
         this.transform.Rotate(new Vector3(0.0f, 50.0f * Time.deltaTime, 0.0f));
