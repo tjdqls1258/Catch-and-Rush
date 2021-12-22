@@ -180,6 +180,6 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
         InGameUIs.SetActive(true);
         GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 1;
         start_Game = true;
-        GameObject.Find("").GetComponent<FlagCatch>().Reset_Flage();
+        GameObject.Find("Pumpkin").GetComponent<FlagCatch>().Reset_Flage();
     }
 }
