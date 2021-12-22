@@ -173,8 +173,8 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void Game_StartEvent()
     {
-        GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
-        GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
+        GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Reset_Score();
+        GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Reset_Score();
         time = start_Time;
         Selete_Team_Planer.SetActive(false);
         InGameUIs.SetActive(true);
