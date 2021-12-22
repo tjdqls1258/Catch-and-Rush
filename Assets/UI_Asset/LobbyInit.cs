@@ -101,7 +101,6 @@ public class LobbyInit : MonoBehaviourPunCallbacks
 
             GameObject.Find("게임시작_Btn").GetComponent<Button>().onClick.AddListener(Start_Game);
             GameObject.Find("팀변경_Btn").GetComponent<Button>().onClick.AddListener(Change_Team);
-            PlayerPrefs.SetInt("Num", 0);
             StartCoroutine(Set_waitName(PlayerPrefs.GetString("PlayerName")));
         }
     }
@@ -427,32 +426,28 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     IEnumerator Set_waitName(string name)
     {
         yield return null;
-        if (Playe_1.GetComponent<Change_Text>().setText(name) && 
-            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 1)))
+        if (Playe_1.GetComponent<Change_Text>().setText(name))
         {
             Playe_1.GetComponent<Change_Text>().Set_Team(true);
             playerTeam = "Red";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
             PlayerPrefs.SetInt("Num", 1);
         }
-        else if (Playe_2.GetComponent<Change_Text>().setText(name) &&
-            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 2)))
+        else if (Playe_2.GetComponent<Change_Text>().setText(name))
         {
             Playe_2.GetComponent<Change_Text>().Set_Team(true);
             playerTeam = "Red";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
             PlayerPrefs.SetInt("Num", 2);
         }
-        else if (Playe_3.GetComponent<Change_Text>().setText(name) &&
-            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 3)))
+        else if (Playe_3.GetComponent<Change_Text>().setText(name))
         {
             Playe_3.GetComponent<Change_Text>().Set_Team(false);
             playerTeam = "Blue";
             PlayerPrefs.SetString("Team_prefs", playerTeam);
             PlayerPrefs.SetInt("Num", 3);
         }
-        else if (Playe_4.GetComponent<Change_Text>().setText(name) &&
-            ((PlayerPrefs.GetInt("Num") == 0) || (PlayerPrefs.GetInt("Num") == 4)))
+        else if (Playe_4.GetComponent<Change_Text>().setText(name))
         {
             Playe_4.GetComponent<Change_Text>().Set_Team(false);
             playerTeam = "Blue";
