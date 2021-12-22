@@ -633,11 +633,11 @@ MonoBehaviour:
   Timer: {fileID: 0}
   get_flag: 0
   fireRange: 50
-  BulletSpeed: 10
-  fire_delay: 0.5
+  BulletSpeed: 50
+  fire_delay: 0.25
   base_fireRange: 50
-  base_BulletSpeed: 10
-  base_fire_delay: 0.5
+  base_BulletSpeed: 50
+  base_fire_delay: 0.25
 --- !u!95 &4662542428015490540
 Animator:
   serializedVersion: 3
