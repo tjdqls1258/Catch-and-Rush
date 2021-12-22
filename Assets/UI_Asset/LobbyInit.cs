@@ -198,17 +198,20 @@ public class LobbyInit : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(0.5f);
         }
         Vector3 team_Spawner;
+        Quaternion team_quaternion;
         if (playerTeam == "Red")
         {
             team_Spawner = GameObject.Find("RedTeam_SpwanPoint").transform.position;
+            team_quaternion = GameObject.Find("RedTeam_SpwanPoint").transform.rotation;
         }
         else
         {
             team_Spawner = GameObject.Find("BlueTeam_SpwanPoint").transform.position;
+            team_quaternion = GameObject.Find("BlueTeam_SpwanPoint").transform.rotation;
         }
         GameObject tempPlayer = PhotonNetwork.Instantiate("Player_01",
             team_Spawner,
-            Quaternion.identity,
+            team_quaternion,
             0);
         Debug.Log("¿Ã∏ß : " + playerName);
         tempPlayer.GetComponent<PlayerCtrl>().SetPlayerName(PlayerPrefs.GetString("PlayerName"));

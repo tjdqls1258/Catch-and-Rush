@@ -175,7 +175,7 @@ public class Time_System_cs : MonoBehaviourPun, IPunObservable
     {
         GameObject.Find("Team1_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
         GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Team_Score = 0;
-        time = 180;
+        time = start_Time;
         Selete_Team_Planer.SetActive(false);
         InGameUIs.SetActive(true);
         GameObject.Find("Team2_Score_Zone").GetComponent<Score_System>().Plus_Score = 1;
