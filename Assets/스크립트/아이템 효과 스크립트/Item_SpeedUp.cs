@@ -5,7 +5,7 @@ using UnityEngine;
 
 using Photon.Pun;
 using Photon.Realtime;
-public class Item_SpeedUp : MonoBehaviour, IItem_use
+public class Item_SpeedUp : MonoBehaviour
 {
     private float player_speed;
 
@@ -42,10 +42,9 @@ public class Item_SpeedUp : MonoBehaviour, IItem_use
 
     IEnumerator SpeedUp(GameObject player)
     {
-        player_speed = player.GetComponent<PlayerCtrl>().speed;
-        player.GetComponent<PlayerCtrl>().speed *= 1.5f;
+        player.GetComponent<PlayerCtrl>().speed = player.GetComponent<PlayerCtrl>().Basic_speed * 1.5f;
         yield return new WaitForSeconds(3.0f);
 
-        player.GetComponent<PlayerCtrl>().speed = player_speed;
+        player.GetComponent<PlayerCtrl>().speed = player.GetComponent<PlayerCtrl>().Basic_speed;
     }
 }
