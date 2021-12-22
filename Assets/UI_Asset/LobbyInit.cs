@@ -425,7 +425,7 @@ public class LobbyInit : MonoBehaviourPunCallbacks
     }
     IEnumerator Set_waitName(string name)
     {
-        yield return null;
+        yield return new WaitForSecondsRealtime(0.01f);
         if (Playe_1.GetComponent<Change_Text>().setText(name))
         {
             Playe_1.GetComponent<Change_Text>().Set_Team(true);
